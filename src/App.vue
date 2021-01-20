@@ -1,27 +1,41 @@
 <template>
-  <div id="app">
-    <HelloWorld />
-  </div>
+  <v-app>
+    <v-app-bar app clipped-left>
+      <Menu />
+    </v-app-bar>
+
+    <v-navigation-drawer app clipped>
+      <!-- -->
+    </v-navigation-drawer>
+    <!-- Sizes your content based upon application components -->
+    <v-main>
+      <!-- Provides the application the proper gutter -->
+      <v-container fluid>
+        <HelloWorld />
+        <!-- If using vue-router -->
+        <router-view></router-view>
+      </v-container>
+    </v-main>
+
+    <v-footer app>
+      <!-- -->
+    </v-footer>
+  </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import HelloWorld from './components/HelloWorld';
+import Menu from './components/Menu'
 
 export default {
   name: 'App',
-  components: {
-    HelloWorld
-  }
-}
-</script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+  components: {
+    HelloWorld, Menu
+  },
+
+  data: () => ({
+    //
+  }),
+};
+</script>
