@@ -11,9 +11,8 @@
     <v-main>
       <!-- Provides the application the proper gutter -->
       <v-container fluid>
-        <HelloWorld />
         <!-- If using vue-router -->
-        <router-view></router-view>
+        <router-view class="col-8"></router-view>
       </v-container>
     </v-main>
 
@@ -24,14 +23,13 @@
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
 import Menu from './components/Menu'
 
 export default {
   name: 'App',
 
   components: {
-    HelloWorld, Menu
+    Menu
   },
 
   data: () => ({
