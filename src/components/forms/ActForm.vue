@@ -1,86 +1,135 @@
 <template>
     <v-form @submit.prevent="onSubmit">
-        <v-text-field
-            label="Номер договора"
-            v-model="contractNumber"
-        ></v-text-field>
+        <Contract :contract="contract" />
 
-        <v-text-field
-            label="Номер ТЗ"
-        ></v-text-field>
+        <Tz :tz="tz" @onChange="onChangeElem" />
 
         <v-text-field
             label="Наличие ППР/ТК"
         ></v-text-field>
 
-        <Coordinate v-bind:person="coordinator" />
+        <Person
+            v-bind:person="person.coordinator"
+            @onChange="onChangePerson"
+        />
 
-        <Coordinate v-bind:person="representative" />
+        <Person
+            v-bind:person="person.representative"
+            @onChange="onChangePerson"
+        />
 
-        <v-text-field
-            label="Форма организации исполнителя"
-        ></v-text-field>
+        <Firm :firm="firm" @onChange="onChangeElem" />
 
-        <v-text-field
-            label="Организация исполнителя"
-        ></v-text-field>
+        <Person
+            v-bind:person="person.contractor"
+            @onChange="onChangePerson"
+        />
 
-        <v-text-field
-            label="ФИО представителя подрядчика"
-        ></v-text-field>
-
-        <v-text-field
-            label="Должность представителя подрядчика"
-        ></v-text-field>
-
-        <v-text-field
-            label="Описание работ"
-        ></v-text-field>
-
-        <v-text-field
-            label="Место проведения работ"
-        ></v-text-field>
+        <Work :work="work" @onChange="onChangeElem" />
 
         <v-date-picker
             v-model="dates"
             range
         ></v-date-picker>
 
+        <CheckboxBlock></CheckboxBlock>
+
         <v-btn type="submit">Submit</v-btn>
     </v-form>
 </template>
 
 <script>
-import Coordinate from './items/Coordinate'
+import Contract from './items/Contract'
+import Tz from './items/Tz'
+import Work from './items/Work'
+import Firm from './items/Firm'
+import Person from './items/Person'
+import CheckboxBlock from './CheckboxBlock'
+
 
 export default {
-  components: { Coordinate },
+  components: { Person, Contract, Tz, Work, Firm, CheckboxBlock},
     data: () => ({
         dates: [],
 
-        contractNumber: "",
-        tzNumber: "",
-
-        coordinator: {
-            surname: {label: "Фамилия координатора проекта"},
-            name: {label: "Имя координатора проекта"},
-            patronymic: {label: "Отчество координатора проекта"},
-            position: {label: "Должность координатора проекта"},
+        contract: {
+            number: {label: "Номер договора", name: "contract-number", value:""},
+            url: {label: "Ссылка на договор", name: "contract-url", value:""}
         },
 
-        representative: {
-            surname: {label: "Фамилия представителя КЛААС"},
-            name: {label: "Имя представителя КЛААС"},
-            patronymic: {label: "Отчество представителя КЛААС"},
-            position: {label: "Должность представителя КЛААС"},
+        tz: {
+            number: {label: "Номер ТЗ", name: "tz-number", value:""},
+            url: {label: "Ссылка на ТЗ", name: "tz-url", value:""}
+        },
+
+        firm: {
+            form: {label: "Форма организации исполнителя", name: "firm-form", value:""},
+            name: {label: "Название организации исполнителя", name: "firm-name", value:""}
+        },
+
+        work: {
+            description: {label: "Описание работ", name: "work-description", value:""},
+            place: {label: "Место проведения работ", name: "work-place", value:""}
+        },
+
+        person: {
+            coordinator: {
+                surname: {label: "Фамилия координатора проекта", name: "coordinator-surname", value:""},
+                name: {label: "Имя координатора проекта", name: "coordinator-name", value:""},
+                patronymic: {label: "Отчество координатора проекта", name: "coordinator-patronymic", value:""},
+                position: {label: "Должность координатора проекта", name: "coordinator-position", value:""},
+            },
+
+            representative: {
+                surname: {label: "Фамилия представителя КЛААС", name: "representative-surname", value:""},
+                name: {label: "Имя представителя КЛААС", name: "representative-name", value:""},
+                patronymic: {label: "Отчество представителя КЛААС", name: "representative-patronymic", value:""},
+                position: {label: "Должность представителя КЛААС", name: "representative-position", value:""},
+            },
+
+            contractor: {
+                surname: {label: "Фамилия представителя подрядчика", name: "contractor-surname", value:""},
+                name: {label: "Имя представителя подрядчика", name: "contractor-name", value:""},
+                patronymic: {label: "Отчество представителя подрядчика", name: "contractor-patronymic", value:""},
+                position: {label: "Должность представителя подрядчика", name: "contractor-position", value:""},
+            }
         }
 
     }),
 
     methods: {
         onSubmit() {
-            console.log('submit', this.contractNumber)
+            const sendData = {
+                person: this.person,
+                work: this.work,
+                firm: this.firm,
+                tz: this.tz,
+                contract: this.contract,
+                dates: this.dates
+            }
+        },
+
+        onChangeElem(elem) {
+            const strArr = elem.name.split('-')
+            this[strArr[0]][strArr[1]].value = elem.value
+        },
+
+        onChangePerson(elem) {
+            const strArr = elem.name.split('-')
+
+            for (const iterator in this.person) {
+                if (iterator == strArr[0]) {
+                    for (const item in this.person[iterator]) {
+                        if (item == strArr[1]) {
+                            this.person[iterator][item].value = elem.value
+                        }
+                    }
+                }
+
+            }
         }
     }
 }
 </script>
+
+

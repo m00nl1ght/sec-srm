@@ -1,0 +1,124 @@
+<template>
+  <v-card class="pa-4">
+    <v-row>
+        <v-col cols="6">
+            <v-card-title>{{`${item.firm.form} ${item.firm.name}`}}</v-card-title>
+
+            <v-card-text>
+                <div class="d-flex flex-column">
+            
+                    <div class="pb-3">
+                        <span>Номер договора {{item.contract.number}}</span>
+
+                        <a class="ml-5" :href="item.contract.url">Открыть в Sharepoint</a>
+                    </div>
+
+                    <div class="pb-3">
+                        <span>Номер ТЗ {{item.tz.number}}</span>
+
+                        <a class="ml-5" :href="item.contract.url">Открыть в Sharepoint</a>
+                    </div>
+
+                    <v-divider class="mx-4"></v-divider>
+
+                    <div class="d-flex flex-column py-3">
+                        <span>
+                            <strong>Руководитель проекта: </strong>
+                            {{item.person.coordinator.surname}}
+                        </span>
+
+                        <span><strong>Координатор проекта со стороны КЛААС: </strong>{{item.person.representative.surname}}</span>
+                        <span><strong>Представитель подрядной организации: </strong>{{item.person.contractor.surname}}</span>
+                    </div>
+
+                    <v-divider class="mx-4"></v-divider>
+
+                    <h3 class="mt-4">Место провердения работ</h3>
+                    <p class="mb-0 mt-1">{{ item.work.place }}</p>
+
+                    <h3 class="mt-4">Описание работ</h3>
+                    <p class="mb-0 mt-1">{{ item.work.description }}</p>
+
+                    <ul class="mt-5">
+                        <li>
+                            <h4 class="d-inline-block">Статус СТО:</h4>
+                            <span class="ml-5">{{ item.approvers.sto }}</span>
+                        </li>
+
+                        <li>     
+                            <h4 class="d-inline-block">Статус ЭЗиС:</h4>
+                            <span class="ml-5">{{ item.approvers.cc }}</span>
+                        </li>
+
+                        <li>
+                            <h4 class="d-inline-block">Статус СБ:</h4>
+                            <span class="ml-5">{{ item.approvers.sd }}</span>
+                        </li>
+                    </ul>
+                </div>
+            </v-card-text>
+
+            <v-card-actions>
+                <v-btn 
+                    outlined 
+                    color="green darken-2" 
+                    @click="changeStatus(index, 'approve')">
+                Согласовать</v-btn>
+
+                <v-btn class="ml-5" 
+                    outlined 
+                    color="red darken-2" 
+                    @click="changeStatus(index, 'disapprove')">
+                Отклонить</v-btn>
+                
+                <router-link 
+                    class="ml-5 reset_underline" 
+                    :to="{name: 'printact', params: {id: index}}"
+                >
+                    <v-btn outlined color="orange darken-2">
+                        <v-icon class="mr-3">mdi-printer</v-icon>
+                        Печать
+                    </v-btn>
+                </router-link>
+            </v-card-actions>
+        </v-col>
+
+        <v-col cols="6">
+            <Maps />
+        </v-col>
+    </v-row>
+
+    <v-row>
+        <v-col>
+        <ActCheckbox :item="item.checkboxs" />
+        </v-col>
+    </v-row>
+    
+  </v-card>
+</template>
+
+<script>
+import Maps from '@/components/maps/Maps'
+import ActCheckbox from '@/components/dashboards/ActCheckbox'
+
+  export default {
+    components: {Maps, ActCheckbox},
+
+    props: ['item', 'index'],
+
+    data: () => ({
+    }),
+
+    methods: {
+        changeStatus: function(index, status) {
+            this.$store.dispatch('acts/changeStatus', {index, status, roles: this.$store.state.user.roles})
+        }
+    }
+  }
+</script>
+
+<style lang="scss" scoped>
+    .reset_underline {
+        text-decoration: none;
+    }
+</style>

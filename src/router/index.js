@@ -6,20 +6,52 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
+    path: '',
     name: 'home',
+    meta: {layout: 'main'},
     component: Home
   },
+
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: function () {
-      return import(/* webpackChunkName: "about" */ '../views/About.vue')
-    }
-  }
+    path: '/login',
+    name: 'login',
+    meta: {layout: 'print'},
+    component: () => import('@/views/Login.vue')
+  },
+  {
+    path: '/logout',
+    name: 'logout',
+    meta: {layout: 'empty'},
+    component: () => import('@/views/Logout.vue')
+  },
+  {
+    path: '/register',
+    name: 'register',
+    meta: {layout: 'empty'},
+    component: () => import('@/views/Register.vue')
+  },
+
+  {
+    path: '/main',
+    name: 'main',
+    meta: {layout: 'main'},
+    component: () => import('@/views/Main.vue')
+  },
+
+  {
+    path: '/dashboard',
+    name: 'dashboard',
+    meta: {layout: 'main'},
+    component: () => import('@/views/Dashboard.vue')
+  },
+  {
+    path: '/printact/:id',
+    name: 'printact',
+    meta: {layout: 'print'},
+    props: true,
+    component: () => import('@/views/Print.vue')
+  },
+
 ]
 
 const router = new VueRouter({
