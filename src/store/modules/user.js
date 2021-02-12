@@ -1,3 +1,4 @@
+import {HTTP} from '@/plugins/axios'
 // initial state
 const state = () => ({
   token: localStorage.getItem('access_token') || null,
@@ -7,19 +8,30 @@ const state = () => ({
 })
 
 // getters
-const getters = {}
+const getters = {
+  isLoggedIn: state => !!state.token,
+  authStatus: state => state.isAuth,
+}
 
 // actions
 const actions = {
   retrieveToken(context, credentials) {
     return new Promise((resolve, reject) => {
-      const token = credentials
-      console.log(token)
+      HTTP.post('api/login', credentials)
 
-      context.commit('login')
-      resolve('success')
-      // localStorage.setItem('access_token', token)
-      // context.commit('retrieveToken', token)
+      .then(resp => {
+        localStorage.setItem('access_token', resp.data.token)
+
+        context.commit('retrieveToken', resp.data.token)
+        context.commit('login')
+
+        resolve('success')
+      })
+
+      .catch(err => {
+        console.log(err)
+        reject(err)
+      })
     })
   },
 
@@ -40,6 +52,7 @@ const mutations = {
 
   logout(state) {
     state.isAuth = false
+    state.token = null
   }
 }
 

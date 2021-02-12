@@ -27,10 +27,7 @@
 
         <Work :work="work" @onChange="onChangeElem" />
 
-        <v-date-picker
-            v-model="dates"
-            range
-        ></v-date-picker>
+        <Datetime :datetime="datetime" @onChange="onChangeElem" @onChangeCheckbox="onChangeCheckbox" />
 
         <CheckboxBlock></CheckboxBlock>
 
@@ -45,12 +42,19 @@ import Work from './items/Work'
 import Firm from './items/Firm'
 import Person from './items/Person'
 import CheckboxBlock from './CheckboxBlock'
-
+import Datetime from './items/Datetime'
 
 export default {
-  components: { Person, Contract, Tz, Work, Firm, CheckboxBlock},
+    components: { Person, Contract, Tz, Work, Firm, CheckboxBlock, Datetime },
+
     data: () => ({
-        dates: [],
+        datetime: {
+            from_date: {label: "C", name: "datetime-from_date", value:""},
+            till_date: {label: "По", name: "datetime-till_date", value:""},
+            from_time: {label: "C", name: "datetime-from_time", value:""},
+            till_time: {label: "По", name: "datetime-till_time", value:""},
+            weekend: {label: "Включая выхоные", name: "datetime-weekend", value: false}
+        },
 
         contract: {
             number: {label: "Номер договора", name: "contract-number", value:""},
@@ -100,13 +104,64 @@ export default {
     methods: {
         onSubmit() {
             const sendData = {
-                person: this.person,
-                work: this.work,
-                firm: this.firm,
-                tz: this.tz,
-                contract: this.contract,
-                dates: this.dates
+                coordinator: {
+                    name: this.person.coordinator.name.value, 
+                    surname: this.person.coordinator.surname.value,
+                    patronymic: this.person.coordinator.patronymic.value,
+                    position: this.person.coordinator.position.value
+                },
+
+                representative: {
+                    name: this.person.representative.name.value, 
+                    surname: this.person.representative.surname.value,
+                    patronymic: this.person.representative.patronymic.value,
+                    position: this.person.representative.position.value
+                },
+
+                contractor: {
+                    name: this.person.contractor.name.value, 
+                    surname: this.person.contractor.surname.value,
+                    patronymic: this.person.contractor.patronymic.value,
+                    position: this.person.contractor.position.value
+                },
+
+                datetime: {
+                    from_date: this.datetime.from_date.value,
+                    till_date: this.datetime.till_date.value,
+                    from_time: this.datetime.from_time.value,
+                    till_time: this.datetime.till_time.value,
+                    weekend: this.datetime.weekend.value,
+                },
+
+                contract: {
+                    number: this.contract.number.value,
+                    url: this.contract.url.value,
+                },
+
+                tz: {
+                    number: this.tz.number.value,
+                    url: this.tz.url.value,
+                },
+
+                firm: {
+                    form: this.firm.form.value,
+                    name: this.firm.name.value,
+                },
+
+                work: {
+                    description: this.work.description.value,
+                    place: this.work.place.value,
+                },
+
             }
+
+            fetch('http://localhost:8000/api/act/store', {
+                method: 'POST',
+                mode: 'no-cors',
+                body: JSON.stringify(sendData)
+            })
+            .then(result=> result.json())
+            .then(res => console.log(res))
         },
 
         onChangeElem(elem) {
@@ -127,6 +182,10 @@ export default {
                 }
 
             }
+        },
+
+        onChangeCheckbox() {
+            this.datetime.weekend.value = !this.datetime.weekend.value
         }
     }
 }

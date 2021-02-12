@@ -4,7 +4,7 @@
 
     <v-spacer></v-spacer>
 
-    <div v-if="!isAuth">
+    <div v-if="!isAuthisLoggedIn">
       <v-btn  @click.prevent="login" href="#">
         <v-icon>mdi-import</v-icon>
         <span class="new">Войти</span>
@@ -25,25 +25,30 @@
   </v-app-bar>
 </template>
 
+
+
 <script>
+  export default {
+    data: () => ({
+      drawen: null,
+      items: [
+        { title: 'Home', url: "/", icon: 'mdi-image' },
+        { title: 'Dashboard', url: "/dashboard", icon: 'mdi-view-dashboard' },
+        { title: 'New act', url: "/main", icon: 'mdi-image' },
+      ],
+      right: null,
+            isLoggedIn: this.$store.state,
+      fullname: 'ddd'
+    }),
 
-export default {
+    methods: {
+      login() {
+        this.$router.push('login')
+      },
 
-  data: function() {
-    return ({
-      isAuth: this.$store.state.user.isAuth,
-      fullname: this.$store.state.user.fullname
-    })
-  },
-
-  methods: {
-    login() {
-      this.$router.push('login')
-    },
-
-    logout() {
-      this.$router.push('logout')
+      logout() {
+        this.$router.push('logout')
+      }
     }
-  },
-}
+  }
 </script>

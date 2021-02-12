@@ -9,6 +9,9 @@ const state = () => ({
         },
 
         dates: ["10-12-2020", "22-12-2020"],
+        times: ["9:00", "18:00"],
+        weekend: true,
+
         approvers: {sto: "new", cc: "approve", sd: "disapprove"},
 
         contract: {
@@ -57,6 +60,9 @@ const state = () => ({
         },
         {
             dates: ["10-12-2020", "22-12-2020"],
+            times: ["7:00", "22:00"],
+            weekend: false,
+
             approvers: {sto: "disapprove", cc: "approve", sd: "new"},
             checkboxs: {
                 build: ['bm2', 'bm5','bs1', 'bs8'],
@@ -110,6 +116,8 @@ const state = () => ({
         },
         {
             dates: ["10-12-2020", "22-12-2020"],
+            times: ["1:00", "8:00"],
+            weekend: false,
             approvers: {sto: "approve", cc: "new", sd: "disapprove"},
             checkboxs: {
                 build: ['bm1', 'bm6','bs1', 'bs8'],

@@ -4,7 +4,7 @@
     <div class="grey-text">
       <v-text-field v-model="form.name" label="Your name" type="text" required/>
       <v-text-field v-model="form.email" label="Your email" type="email" required/>
-      <v-text-field v-model="form.password" label="Confirm your email" icon="exclamation-triangle" type="text" required/>
+      <v-text-field v-model="form.password" label="Confirm your password" icon="exclamation-triangle" type="text" required/>
       <v-text-field v-model="form.confirmpassword" label="Your password" icon="lock" type="password" required/>
     </div>
 
@@ -28,8 +28,16 @@ export default {
 
   methods: {
     submit() {
-      
+      fetch('http://localhost:8000/api/register', {
+        method: 'POST',
+  
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify(this.form)
+      })
     }
+
   }
 }
 </script>

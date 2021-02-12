@@ -7,19 +7,19 @@
             <v-card-text>
                 <div class="d-flex flex-column">
             
-                    <div class="pb-3">
-                        <span>Номер договора {{item.contract.number}}</span>
+                    <div class="">
+                        <span><strong>Номер договора:</strong> {{item.contract.number}}</span>
 
                         <a class="ml-5" :href="item.contract.url">Открыть в Sharepoint</a>
                     </div>
 
-                    <div class="pb-3">
-                        <span>Номер ТЗ {{item.tz.number}}</span>
+                    <div class="">
+                        <span><strong>Номер ТЗ:</strong> {{item.tz.number}}</span>
 
                         <a class="ml-5" :href="item.contract.url">Открыть в Sharepoint</a>
                     </div>
 
-                    <v-divider class="mx-4"></v-divider>
+                    <v-divider class="mx-4 mt-3"></v-divider>
 
                     <div class="d-flex flex-column py-3">
                         <span>
@@ -29,6 +29,13 @@
 
                         <span><strong>Координатор проекта со стороны КЛААС: </strong>{{item.person.representative.surname}}</span>
                         <span><strong>Представитель подрядной организации: </strong>{{item.person.contractor.surname}}</span>
+                    </div>
+
+                    <v-divider class="mx-4"></v-divider>
+
+                    <div class="d-flex flex-column py-3">
+                        <span><strong>Время проведения работ: </strong>{{`c ${item.times[0]} по ${item.times[1]}`}}</span>
+                        <span v-if="item.weekend"><strong>Включая выходные дни</strong></span>
                     </div>
 
                     <v-divider class="mx-4"></v-divider>

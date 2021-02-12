@@ -1,5 +1,16 @@
 <template>
-  <h2>Home</h2>
+  <button @click="onClick">Тест</button>
 </template>
+
+<script>
+import {HTTP} from "@/plugins/axios"
+export default {
+  methods: {
+    onClick() {
+        this.$http.post('api/getuser')
+    }
+  }
+}
+</script>
 
 

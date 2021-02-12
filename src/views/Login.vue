@@ -21,9 +21,8 @@ export default {
 
   methods: {
     login() {
-      this.$store.dispatch('user/retrieveToken', 'anytoken')
+      this.$store.dispatch('user/retrieveToken', {email: this.email, password: this.password})
       .then(response => {
-        console.log(response)
         if(response) {
           this.$router.push({name: 'home'})
         }
