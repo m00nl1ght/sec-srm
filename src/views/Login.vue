@@ -24,15 +24,12 @@ export default {
       this.$store.dispatch('user/retrieveToken', {email: this.email, password: this.password})
       .then(response => {
         if(response) {
+          this.$http.defaults.headers.common['Authorization'] ='Bearer ' + this.$store.state.user.token
           this.$router.push({name: 'home'})
         }
       })
     }
   },
-
-  // computed: mapState([
-  //   'user'
-  // ])
 }
 </script>
 

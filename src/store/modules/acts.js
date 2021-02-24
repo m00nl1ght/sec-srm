@@ -1,175 +1,7 @@
-// initial state
+import {HTTP} from '@/plugins/axios'
+
 const state = () => ({
-    acts: [
-        {
-        checkboxs: {
-            build: ['bm1', 'bm3','bs1', 'bs8'],
-            warm: [],
-            another: []
-        },
-
-        dates: ["10-12-2020", "22-12-2020"],
-        times: ["9:00", "18:00"],
-        weekend: true,
-
-        approvers: {sto: "new", cc: "approve", sd: "disapprove"},
-
-        contract: {
-            number: "111",
-            url: "ссылка на договор"
-        },
-
-        tz: {
-            number: "222",
-            url: "Ссылка та техническое задание"
-        },
-
-        firm: {
-            form: "ООО",
-            name: "Рога и копыта"
-        },
-
-        work: {
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat",
-            place: "Склад сырья, пятый с краю"
-        },
-
-        person: {
-            coordinator: {
-                surname: "Иванов",
-                name: "Иван",
-                patronymic: "Иванович",
-                position: "Руководитерь проекта"
-            },
-
-            representative: {
-                surname: "Петров",
-                name: "Петр",
-                patronymic: "Петрович",
-                position: "Представитель КЛААС",
-            },
-
-            contractor: {
-                surname: "Сидоров",
-                name: "Сидор",
-                patronymic: "Сидорович",
-                position: "Представитель подрядчика",
-            }
-        }
-
-        },
-        {
-            dates: ["10-12-2020", "22-12-2020"],
-            times: ["7:00", "22:00"],
-            weekend: false,
-
-            approvers: {sto: "disapprove", cc: "approve", sd: "new"},
-            checkboxs: {
-                build: ['bm2', 'bm5','bs1', 'bs8'],
-                warm: [],
-                another: []
-            },
-    
-            contract: {
-                number: "111",
-                url: "ссылка на договор"
-            },
-    
-            tz: {
-                number: "222",
-                url: "Ссылка та техническое задание"
-            },
-    
-            firm: {
-                form: "ООО",
-                name: "Рога и копыта"
-            },
-    
-            work: {
-                description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat",
-                place: "Склад сырья, пятый с краю"
-            },
-    
-            person: {
-                coordinator: {
-                    surname: "Иванов",
-                    name: "Иван",
-                    patronymic: "Иванович",
-                    position: "Руководитерь проекта"
-                },
-    
-                representative: {
-                    surname: "Петров",
-                    name: "Петр",
-                    patronymic: "Петрович",
-                    position: "Представитель КЛААС",
-                },
-    
-                contractor: {
-                    surname: "Сидоров",
-                    name: "Сидор",
-                    patronymic: "Сидорович",
-                    position: "Представитель подрядчика",
-                }
-            }
-    
-        },
-        {
-            dates: ["10-12-2020", "22-12-2020"],
-            times: ["1:00", "8:00"],
-            weekend: false,
-            approvers: {sto: "approve", cc: "new", sd: "disapprove"},
-            checkboxs: {
-                build: ['bm1', 'bm6','bs1', 'bs8'],
-                warm: ['wm2'],
-                another: []
-            },
-    
-            contract: {
-                number: "111",
-                url: "ссылка на договор"
-            },
-    
-            tz: {
-                number: "222",
-                url: "Ссылка та техническое задание"
-            },
-    
-            firm: {
-                form: "ООО",
-                name: "Рога и копыта"
-            },
-    
-            work: {
-                description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat",
-                place: "Склад сырья, пятый с краю"
-            },
-    
-            person: {
-                coordinator: {
-                    surname: "Иванов3",
-                    name: "Иван3",
-                    patronymic: "Иванович3",
-                    position: "Руководитерь проекта"
-                },
-    
-                representative: {
-                    surname: "Петров3",
-                    name: "Петр3",
-                    patronymic: "Петрович3",
-                    position: "Представитель КЛААС",
-                },
-    
-                contractor: {
-                    surname: "Сидоров",
-                    name: "Сидор",
-                    patronymic: "Сидорович",
-                    position: "Представитель подрядчика",
-                }
-            }
-    
-        },
-    ]
+    acts: []
   })
   
   // getters
@@ -182,21 +14,101 @@ const state = () => ({
   // actions
   const actions = {
     changeStatus(context, props) {
-        context.commit('changeStatus', props)
+        let currentStatus = context.state.acts[props.index].approvers
+
+        props.roles.forEach(elem => {
+            if(currentStatus[elem]) {
+                let item = {}
+                item[elem] = props.status
+
+                currentStatus = {
+                    ...currentStatus, ...item
+                }
+            }
+        })
+
+        HTTP.post(
+            'api/act/changestatus', 
+            {
+                currentStatus,
+                id: context.state.acts[props.index].id
+            },
+            {
+                headers: {
+                    Authorization: 'Bearer ' + context.rootState.user.token
+                }
+            }
+        )
+        .then(response => {
+            if(response.data === 'success') {
+                context.commit('changeStatus', {
+                    currentStatus,
+                    index: props.index
+                })
+            }
+        })
+    },
+
+    getActs(context) {
+        HTTP.post('api/act', null, {
+            headers: {
+              Authorization: 'Bearer ' + context.rootState.user.token
+            }
+        })
+        .then(response => {
+            let acts = response.data.map((item) => {
+                return ({
+                    id: item.id,
+                    approvers: JSON.parse( item.approve.approval ),
+                    checkboxs: JSON.parse( item.checkbox.options ),
+                    dates: [item.from_date, item.till_date],
+                    times: [item.from_time, item.till_time],
+                    weekend: item.weekend,
+            
+                    contract: { number: item.contract_number, url: item.contract_url },
+
+                    tz: { number: item.tz_number, url: item.tz_url },
+
+                    firm: { form: "ООО", name: item.visitor.firm.name, },
+                    work: { description: item.description, place: item.place },
+
+                    person: {
+                        coordinator: {
+                            surname: item.employee[0].surname,
+                            name: item.employee[0].name,
+                            patronymic: item.employee[0].patronymic,
+                            position: item.employee[0].position
+                        },
+            
+                        representative: {
+                            surname: item.employee[1].surname,
+                            name: item.employee[1].name,
+                            patronymic: item.employee[1].patronymic,
+                            position: item.employee[1].position
+                        },
+            
+                        contractor: {
+                            surname: item.visitor.surname,
+                            name: item.visitor.name,
+                            patronymic: item.visitor.patronymic,
+                            position: item.visitor.position,
+                        }
+                    }
+                })
+            })
+            context.commit('getActs', acts)
+        })
     }
-  }
+  } 
   
   // mutations
   const mutations = {
     changeStatus(state, props) {
-        console.log(props.roles)
-        props.roles.forEach(elem => {
-            if(state.acts[props.index].approvers[elem]) {
-                console.log(elem)
-            }
-        })
+        state.acts[props.index].approvers = props.currentStatus
+    },
 
-        // state.acts[props.index].approvers[props.role] = props.status
+    getActs(state, props) {
+        state.acts = props
     }
   }
   

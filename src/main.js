@@ -10,7 +10,6 @@ Vue.config.productionTip = false
 import Axios from 'axios'
 
 Vue.prototype.$http = Axios
-
 Vue.prototype.$http.defaults.baseURL = 'http://localhost:8000'
 
 const token = localStorage.getItem('access_token')

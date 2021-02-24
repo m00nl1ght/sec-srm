@@ -3,11 +3,14 @@
 </template>
 
 <script>
-import {HTTP} from "@/plugins/axios"
+import {HTTP} from '@/plugins/axios'
 export default {
+
   methods: {
     onClick() {
-        this.$http.post('api/getuser')
+        this.$http.post('api/act/test')
+        
+        .then(response => console.log(response))
     }
   }
 }

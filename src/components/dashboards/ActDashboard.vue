@@ -9,12 +9,16 @@
           <div class="d-flex pa-1" :class="currentUserApproveStatus(item.approvers)">
             <div>{{ `${item.firm.name} c ${item.dates[0]} по ${item.dates[1]}` }}</div>
             
-            <div class="ml-auto mr-3">Ваш статус согласования: {{currentUserApproveStatus(item.approvers)}}</div>
+            <div class="ml-auto mr-3">Ваш статус согласования: {{ currentUserApproveStatus(item.approvers) }}</div>
           </div>
       </v-expansion-panel-header>
 
       <v-expansion-panel-content>
-          <ActCard :item="item" :index="index" />
+          <ActCard 
+            :item="item" 
+            :index="index" 
+            :currentStatus="currentUserApproveStatus(item.approvers)"
+        />
       </v-expansion-panel-content>
     </v-expansion-panel>
   </v-expansion-panels>
@@ -51,6 +55,10 @@ export default {
         ...mapState([
             'acts'
         ]),
+    },
+
+    mounted: function() {
+        this.$store.dispatch('acts/getActs')
     }
 }
 </script>
@@ -58,6 +66,10 @@ export default {
 <style scoped>
     .new {
         background: #CFD8DC;
+    }
+
+    .owner {
+        background: cornflowerblue;
     }
 
     .approve {

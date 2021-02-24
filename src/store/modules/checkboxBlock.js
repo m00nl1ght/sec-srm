@@ -1,5 +1,11 @@
 // initial state
 const state = () => ({
+  checkBoxValue: {
+    build: [],
+    warm: [],
+    another: []
+  },
+
   checkboxHead: {
     build: 'Строительно-монтажные работы',
     warm: 'Тепловые установки',
@@ -60,12 +66,18 @@ const getters = {}
 
 // actions
 const actions = {
-
+  changedForm(context, credentials) {
+    let item = {}
+    item[credentials.index] = credentials.value
+    context.commit('changedForm', item)
+  }
 }
 
 // mutations
 const mutations = {
-
+  changedForm(state, item)  {
+    state.checkBoxValue = {...state.checkBoxValue, ...item}
+  }
 }
 
 export default {

@@ -5,7 +5,8 @@
         :title="checkboxBlock.checkboxHead.build"
         :main="checkboxBlock.checkboxArrMain.build"
         :sub="checkboxBlock.checkboxArrSub.build"
-        v-model="build"
+        :value="checkboxBlock.checkBoxValue.build"
+        @input="(props) => onChange(props, 'build')"
       />
     </div>
     
@@ -14,7 +15,8 @@
         :title="checkboxBlock.checkboxHead.warm"
         :main="checkboxBlock.checkboxArrMain.warm"
         :sub="checkboxBlock.checkboxArrSub.warm"
-        v-model="warm"
+        :value="checkboxBlock.checkBoxValue.build"
+        @input="(props) => onChange(props, 'warm')"
       />
     </div>
 
@@ -23,7 +25,8 @@
         :title="checkboxBlock.checkboxHead.another"
         :main="checkboxBlock.checkboxArrMain.another"
         :sub="checkboxBlock.checkboxArrSub.another"
-        v-model="another"
+        :value="checkboxBlock.checkBoxValue.build"
+        @input="(props) => onChange(props, 'another')"
       />
     </div>
   </div>
@@ -39,14 +42,11 @@ export default {
   components: { CheckboxCard },
 
   data: () => ({
-    build: [],
-    warm: [],
-    another: []
   }),
 
   methods: {
-    onChange(prop) {
-      console.log(prop.value)
+    onChange(value, index) {
+      this.$store.dispatch('checkboxBlock/changedForm', {value, index})
     },
 
     onDrop(data) {

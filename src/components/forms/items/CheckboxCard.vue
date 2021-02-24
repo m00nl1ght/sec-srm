@@ -1,5 +1,4 @@
 <template>
-
   <v-card>
     <v-card-title>
       <label class="checkbox_w100 py-3 ml-3" :for="title">
@@ -59,7 +58,7 @@ export default {
 
   data: function() {
     return {
-      checkedItem: this.value
+      checkedItem: this.value,
     }
   },
 

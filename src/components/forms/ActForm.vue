@@ -1,6 +1,7 @@
 <template>
-    <v-form @submit.prevent="onSubmit">
-        <Contract :contract="contract" />
+    <v-form class="px-8 pt-5" @submit.prevent="onSubmit">
+
+        <Contract :contract="contract" @onChange="onChangeElem" />
 
         <Tz :tz="tz" @onChange="onChangeElem" />
 
@@ -29,9 +30,11 @@
 
         <Datetime :datetime="datetime" @onChange="onChangeElem" @onChangeCheckbox="onChangeCheckbox" />
 
+        <Maps class="map-block" /> 
+
         <CheckboxBlock></CheckboxBlock>
 
-        <v-btn type="submit">Submit</v-btn>
+        <v-btn type="submit">Сохранить</v-btn>
     </v-form>
 </template>
 
@@ -43,9 +46,11 @@ import Firm from './items/Firm'
 import Person from './items/Person'
 import CheckboxBlock from './CheckboxBlock'
 import Datetime from './items/Datetime'
+import Maps from '@/components/maps/Maps'
+
 
 export default {
-    components: { Person, Contract, Tz, Work, Firm, CheckboxBlock, Datetime },
+    components: { Person, Contract, Tz, Work, Firm, CheckboxBlock, Datetime, Maps },
 
     data: () => ({
         datetime: {
@@ -153,14 +158,11 @@ export default {
                     place: this.work.place.value,
                 },
 
+                checkboxes: this.$store.state.checkboxBlock.checkBoxValue,
+                roles: this.$store.state.user.roles
             }
 
-            fetch('http://localhost:8000/api/act/store', {
-                method: 'POST',
-                mode: 'no-cors',
-                body: JSON.stringify(sendData)
-            })
-            .then(result=> result.json())
+            this.$http.post('api/act/store', sendData)      
             .then(res => console.log(res))
         },
 
@@ -190,5 +192,11 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+    .map-block {
+        height: 450px;
+    }
+</style>
 
 

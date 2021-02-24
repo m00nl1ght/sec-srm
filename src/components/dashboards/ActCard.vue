@@ -66,13 +66,16 @@
             </v-card-text>
 
             <v-card-actions>
-                <v-btn 
+                <v-btn
+                    v-if="currentStatus !== 'owner'"
                     outlined 
                     color="green darken-2" 
                     @click="changeStatus(index, 'approve')">
                 Согласовать</v-btn>
 
-                <v-btn class="ml-5" 
+                <v-btn
+                    v-if="currentStatus !== 'owner'"
+                    class="ml-5" 
                     outlined 
                     color="red darken-2" 
                     @click="changeStatus(index, 'disapprove')">
@@ -111,10 +114,7 @@ import ActCheckbox from '@/components/dashboards/ActCheckbox'
   export default {
     components: {Maps, ActCheckbox},
 
-    props: ['item', 'index'],
-
-    data: () => ({
-    }),
+    props: ['item', 'index', 'currentStatus'],
 
     methods: {
         changeStatus: function(index, status) {

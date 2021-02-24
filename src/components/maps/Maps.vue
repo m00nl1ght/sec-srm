@@ -1,21 +1,20 @@
 <template>
     <div id="js-map-grid" class="map js-map-grid">
-       
         <div 
+            v-for="(row, index) in rows"
+
             class="grid__row"
-            v-for="(row, index) in rows" 
             :key="index" 
             v-bind:style="height">
                 <div
-                    class="grid__col"
-                    v-for="(col, i) in cols" 
+                    v-for="(col, i) in cols"
+
+                    class="grid__col" 
                     :key="i"
                     v-bind:style="width"
-                    @click="onClick"
-                    
+                    @click="onClick"   
                 ></div>
         </div>
-      
     </div>
 </template>
 
@@ -68,5 +67,10 @@ export default {
     }
     .grid__col {
         height: 100%;
+    }
+
+    .active {
+        background: #431cebe0;
+        opacity: .5;
     }
 </style>

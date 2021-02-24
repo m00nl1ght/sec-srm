@@ -4,7 +4,7 @@
 
     <v-spacer></v-spacer>
 
-    <div v-if="!isAuthisLoggedIn">
+    <div v-if="!isLoggedIn">
       <v-btn  @click.prevent="login" href="#">
         <v-icon>mdi-import</v-icon>
         <span class="new">Войти</span>
@@ -37,8 +37,7 @@
         { title: 'New act', url: "/main", icon: 'mdi-image' },
       ],
       right: null,
-            isLoggedIn: this.$store.state,
-      fullname: 'ddd'
+
     }),
 
     methods: {
@@ -48,6 +47,22 @@
 
       logout() {
         this.$router.push('logout')
+      }
+    },
+
+    computed: {
+      isLoggedIn() {
+        return this.$store.getters['user/isLoggedIn']
+      },
+
+      fullname() {
+        return this.$store.state.user.fullname
+      }
+    },
+
+    created: function () {
+      if(this.$store.state.user.token){
+        this.$store.dispatch('user/getUser')
       }
     }
   }
