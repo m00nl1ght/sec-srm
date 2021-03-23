@@ -6,39 +6,43 @@
             class="grid__row"
             :key="index" 
             v-bind:style="height">
-                <div
+                <MapsColumnItem 
                     v-for="(col, i) in cols"
-
-                    class="grid__col" 
                     :key="i"
+                    class="grid__col" 
+
                     v-bind:style="width"
-                    @click="onClick"   
-                ></div>
+                    :col='i'
+                    :row='index'
+                    :checkedItems='checkedItems'
+                    @onChange="(e) => $emit('onChange', e)"
+                />
         </div>
     </div>
 </template>
 
 <script>
-export default {
-    data: () => ({
-        rows: 8,
-        cols: 8,
-    }),
+import MapsColumnItem from "@/components/maps/MapsColumnItem"
 
-    methods: {
-        onClick(e) {
-           console.log(e.target)
-            this.$set(e.target, 'checked')
-            console.log(e.target)
-        }
-    },
+export default {
+    props: ['checkedItems'],
+
+    components: { MapsColumnItem },
 
     computed: {
+        cols() {
+            return this.$store.getters['maps/getCols']
+        },
+
+        rows() {
+            return this.$store.getters['maps/getRows']
+        },
+
         width() {
-            return 'width: ' + 100/this.rows + '%'
+            return 'width: ' + 100/this.cols + '%'
         },
         height() {
-             return 'height: ' + 100/this.cols + '%'
+             return 'height: ' + 100/this.rows + '%'
         }
     },
 
@@ -57,9 +61,17 @@ export default {
         background-image: url('../../assets/map.jpg');
         background-size: 100% 100%;
 
-        width: 100%;
-        height: 100%;
+        width: 700px;
+        height: 450px;
 
+        margin: 0 auto;
+    }
+
+    @media screen and (max-width: 1400px) {
+        .map {
+            width: 400px;
+            height: 260px;
+        }
     }
 
     .grid__row {

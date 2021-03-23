@@ -5,10 +5,6 @@
 
         <Tz :tz="tz" @onChange="onChangeElem" />
 
-        <v-text-field
-            label="Наличие ППР/ТК"
-        ></v-text-field>
-
         <Person
             v-bind:person="person.coordinator"
             @onChange="onChangePerson"
@@ -30,11 +26,15 @@
 
         <Datetime :datetime="datetime" @onChange="onChangeElem" @onChangeCheckbox="onChangeCheckbox" />
 
-        <Maps class="map-block" /> 
+        <Maps 
+            class="map-block"
+            :checkedItems='mapCheckedItems'
+            @onChange='onChangeMap'
+        /> 
 
         <CheckboxBlock></CheckboxBlock>
 
-        <v-btn type="submit">Сохранить</v-btn>
+        <SubmitButton />
     </v-form>
 </template>
 
@@ -47,10 +47,11 @@ import Person from './items/Person'
 import CheckboxBlock from './CheckboxBlock'
 import Datetime from './items/Datetime'
 import Maps from '@/components/maps/Maps'
+import SubmitButton from '@/components/forms/button/SubmitButton'
 
 
 export default {
-    components: { Person, Contract, Tz, Work, Firm, CheckboxBlock, Datetime, Maps },
+    components: { Person, Contract, Tz, Work, Firm, CheckboxBlock, Datetime, Maps, SubmitButton },
 
     data: () => ({
         datetime: {
@@ -102,7 +103,9 @@ export default {
                 patronymic: {label: "Отчество представителя подрядчика", name: "contractor-patronymic", value:""},
                 position: {label: "Должность представителя подрядчика", name: "contractor-position", value:""},
             }
-        }
+        },
+
+        mapCheckedItems: []
 
     }),
 
@@ -159,6 +162,8 @@ export default {
                 },
 
                 checkboxes: this.$store.state.checkboxBlock.checkBoxValue,
+                map: this.mapCheckedItems,
+                
                 roles: this.$store.state.user.roles
             }
 
@@ -188,8 +193,16 @@ export default {
 
         onChangeCheckbox() {
             this.datetime.weekend.value = !this.datetime.weekend.value
+        },
+
+        onChangeMap(e) {
+            if(this.mapCheckedItems.indexOf(e) != -1){
+                this.mapCheckedItems = this.mapCheckedItems.filter((elem) => elem != e)
+            } else {
+                this.mapCheckedItems.push(e)
+            }
         }
-    }
+    },  
 }
 </script>
 

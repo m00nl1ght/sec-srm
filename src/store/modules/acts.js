@@ -93,7 +93,9 @@ const state = () => ({
                             patronymic: item.visitor.patronymic,
                             position: item.visitor.position,
                         }
-                    }
+                    },
+
+                    maps: JSON.parse( item.map.maps ),
                 })
             })
             context.commit('getActs', acts)

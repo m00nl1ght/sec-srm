@@ -1,5 +1,6 @@
 <template>
   <v-app>
+    <Snackbar />
     <Appbar />
 
     <Sidebar />
@@ -15,13 +16,14 @@
 </template>
 
 <script>
+import Snackbar from '@/components/app/Snackbar'
 import Appbar from '@/components/app/Appbar'
 import Sidebar from '@/components/app/Sidebar'
 import Footer from '@/components/app/Footer'
 
 export default {
   components: {
-    Appbar, Sidebar, Footer
+    Appbar, Sidebar, Footer, Snackbar
   },
 
   data: () => ({

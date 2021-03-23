@@ -94,14 +94,35 @@
         </v-col>
 
         <v-col cols="6">
-            <Maps />
+            <Maps 
+                :checkedItems='item.maps'
+            />
         </v-col>
     </v-row>
 
     <v-row>
-        <v-col>
-        <ActCheckbox :item="item.checkboxs" />
-        </v-col>
+        <v-expansion-panels>
+            <v-expansion-panel>
+                <v-expansion-panel-header>Добавить документы/сотрудников</v-expansion-panel-header>
+                <v-expansion-panel-content>
+                    <ActWorkerCard 
+                        :workers='workers'
+                        @getWorkers="getWorkers"
+                        :actId='item.id' 
+                    />
+                    <Worker 
+                        @getWorkers="getWorkers"
+                        :actId='item.id' />
+                </v-expansion-panel-content>
+            </v-expansion-panel>
+
+            <v-expansion-panel>
+                <v-expansion-panel-header>Виды работ</v-expansion-panel-header>
+                <v-expansion-panel-content>
+                    <ActCheckbox :item="item.checkboxs" />
+                </v-expansion-panel-content>
+            </v-expansion-panel>
+        </v-expansion-panels>
     </v-row>
     
   </v-card>
@@ -109,16 +130,35 @@
 
 <script>
 import Maps from '@/components/maps/Maps'
+import Worker from '@/components/dashboards/workerItems/Worker'
+import ActWorkerCard from '@/components/dashboards/workerItems/ActWorkerCard'
 import ActCheckbox from '@/components/dashboards/ActCheckbox'
 
-  export default {
-    components: {Maps, ActCheckbox},
+import {HTTP} from '@/plugins/axios'
 
+  export default {
+    components: {Maps, ActCheckbox, Worker, ActWorkerCard},
     props: ['item', 'index', 'currentStatus'],
+
+    data: () => ({
+        workers: []
+    }),
 
     methods: {
         changeStatus: function(index, status) {
             this.$store.dispatch('acts/changeStatus', {index, status, roles: this.$store.state.user.roles})
+        },
+
+        getWorkers(actId) {
+            HTTP.get('/api/act-worker/' + actId,
+                {
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem('access_token')
+                    }
+                })
+            .then(res => {
+                this.workers = res.data
+            })
         }
     }
   }
