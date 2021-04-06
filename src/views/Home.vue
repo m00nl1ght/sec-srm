@@ -1,19 +1,3 @@
 <template>
-  <button @click="onClick">Тест</button>
+  <img src="@/assets/home.jpg">
 </template>
-
-<script>
-import {HTTP} from '@/plugins/axios'
-export default {
-
-  methods: {
-    onClick() {
-        this.$http.post('api/act/test')
-        
-        .then(response => console.log(response))
-    }
-  }
-}
-</script>
-
-

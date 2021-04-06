@@ -85,7 +85,11 @@
                     class="ml-5 reset_underline" 
                     :to="{name: 'printact', params: {id: index}}"
                 >
-                    <v-btn outlined color="orange darken-2">
+                    <v-btn
+                        v-if='everyoneAgree'
+                        outlined 
+                        color="orange darken-2"
+                        >
                         <v-icon class="mr-3">mdi-printer</v-icon>
                         Печать
                     </v-btn>
@@ -105,14 +109,7 @@
             <v-expansion-panel>
                 <v-expansion-panel-header>Добавить документы/сотрудников</v-expansion-panel-header>
                 <v-expansion-panel-content>
-                    <ActWorkerCard 
-                        :workers='workers'
-                        @getWorkers="getWorkers"
-                        :actId='item.id' 
-                    />
-                    <Worker 
-                        @getWorkers="getWorkers"
-                        :actId='item.id' />
+                    <Worker :actId='item.id' />
                 </v-expansion-panel-content>
             </v-expansion-panel>
 
@@ -130,35 +127,27 @@
 
 <script>
 import Maps from '@/components/maps/Maps'
-import Worker from '@/components/dashboards/workerItems/Worker'
-import ActWorkerCard from '@/components/dashboards/workerItems/ActWorkerCard'
 import ActCheckbox from '@/components/dashboards/ActCheckbox'
-
-import {HTTP} from '@/plugins/axios'
+import Worker from '@/components/dashboards/workerItems/Worker'
 
   export default {
-    components: {Maps, ActCheckbox, Worker, ActWorkerCard},
+    components: {Maps, ActCheckbox, Worker},
     props: ['item', 'index', 'currentStatus'],
-
-    data: () => ({
-        workers: []
-    }),
 
     methods: {
         changeStatus: function(index, status) {
             this.$store.dispatch('acts/changeStatus', {index, status, roles: this.$store.state.user.roles})
         },
+    },
 
-        getWorkers(actId) {
-            HTTP.get('/api/act-worker/' + actId,
-                {
-                    headers: {
-                        Authorization: 'Bearer ' + localStorage.getItem('access_token')
-                    }
-                })
-            .then(res => {
-                this.workers = res.data
-            })
+    computed: {
+        everyoneAgree() {
+            for(let key in this.item.approvers) {
+                if(this.item.approvers[key] == 'disapprove' || this.item.approvers[key] == 'new') {
+                    return false
+                }
+            }
+            return true
         }
     }
   }

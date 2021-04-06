@@ -3,61 +3,65 @@
         <v-list-item 
             v-for="(item, index) in workers" 
             :key="index"
-            class="list-item mb-2">
-            
+            :class="classObj(item.approve_doc_status)">
+
             <v-list-item-content>
-                <v-list-item-title 
-                    v-text="`${item.surname} ${item.name.slice(0, 1)}. ${item.patronymic.slice(0, 1)}.`">
-                </v-list-item-title>
+                <Toolbar
+                    :title="`${item.surname} ${item.name.slice(0, 1)}. ${item.patronymic.slice(0, 1)}.`"
+                    :status="item.approve_doc_status"
+                    :id="item.id"
+                    :actId="actId"
+                />
 
                 <v-list-item-subtitle
                     class="text--primary"
-                    v-text="item.firm"
+                    v-text="'Компания: ' + item.firm"
                 ></v-list-item-subtitle>
 
-                <v-list-item-subtitle v-text="item.position"></v-list-item-subtitle>
+                <v-list-item-subtitle v-text="'Должность: ' + item.position"></v-list-item-subtitle>
 
                 <ul>
                     <li v-for="(doc, i) in item.files" :key="i">
-                        <a :href="filePath + doc.path">{{doc.name}}</a>
+                        <a target="_blank" :href="filePath + doc.path">{{doc.name}}</a>
                     </li>
                 </ul> 
             </v-list-item-content>
 
-            <v-list-item-action>
-                <v-btn>
-                    <v-icon
-                    color="grey lighten-1"
-                    >
-                    mdi-trash-can-outline
-                    </v-icon>
-                </v-btn>
-
-            </v-list-item-action>
         </v-list-item>
     </v-list>
 </template>
 
 <script>
 import CONFIG from '@/config/config.js'
+import Toolbar from '@/components/dashboards/workerItems/Toolbar'
 
 export default {
+    components: {Toolbar},
     props: ['actId', 'workers'],
-
-    mounted(){
-        this.$emit('getWorkers', this.actId)
-    },
 
     computed: {
         filePath() {
             return CONFIG.FILE_PATH
+        },
+    },
+
+    methods: {
+        classObj(status) {
+            return {
+                'approve': status == 'approve',
+                'disapprove': status == 'disapprove',
+            }
         }
     }
 }
 </script>
 
 <style scoped>
-    .list-item{
+    .approve{
         background: #DCEDC8;
+    }
+
+    .disapprove{
+        background: #EF9A9A;
     }
 </style>

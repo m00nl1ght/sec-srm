@@ -167,7 +167,7 @@ export default {
                 roles: this.$store.state.user.roles
             }
 
-            this.$http.post('api/act/store', sendData)      
+            this.$http.post('api/act', sendData)      
             .then(res => console.log(res))
         },
 

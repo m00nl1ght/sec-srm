@@ -50,55 +50,59 @@ const state = () => ({
     },
 
     getActs(context) {
-        HTTP.post('api/act', null, {
-            headers: {
-              Authorization: 'Bearer ' + context.rootState.user.token
-            }
-        })
-        .then(response => {
-            let acts = response.data.map((item) => {
-                return ({
-                    id: item.id,
-                    approvers: JSON.parse( item.approve.approval ),
-                    checkboxs: JSON.parse( item.checkbox.options ),
-                    dates: [item.from_date, item.till_date],
-                    times: [item.from_time, item.till_time],
-                    weekend: item.weekend,
-            
-                    contract: { number: item.contract_number, url: item.contract_url },
-
-                    tz: { number: item.tz_number, url: item.tz_url },
-
-                    firm: { form: "ООО", name: item.visitor.firm.name, },
-                    work: { description: item.description, place: item.place },
-
-                    person: {
-                        coordinator: {
-                            surname: item.employee[0].surname,
-                            name: item.employee[0].name,
-                            patronymic: item.employee[0].patronymic,
-                            position: item.employee[0].position
-                        },
-            
-                        representative: {
-                            surname: item.employee[1].surname,
-                            name: item.employee[1].name,
-                            patronymic: item.employee[1].patronymic,
-                            position: item.employee[1].position
-                        },
-            
-                        contractor: {
-                            surname: item.visitor.surname,
-                            name: item.visitor.name,
-                            patronymic: item.visitor.patronymic,
-                            position: item.visitor.position,
-                        }
-                    },
-
-                    maps: JSON.parse( item.map.maps ),
-                })
+        return new Promise((resolve) => {
+            HTTP.get('api/act', {
+                headers: {
+                  Authorization: 'Bearer ' + context.rootState.user.token
+                }
             })
-            context.commit('getActs', acts)
+            .then(response => {
+                let acts = response.data.map((item) => {
+                    return ({
+                        id: item.id,
+                        approvers: JSON.parse( item.approve.approval ),
+                        checkboxs: JSON.parse( item.checkbox.options ),
+                        dates: [item.from_date, item.till_date],
+                        times: [item.from_time, item.till_time],
+                        weekend: item.weekend,
+                
+                        contract: { number: item.contract_number, url: item.contract_url },
+    
+                        tz: { number: item.tz_number, url: item.tz_url },
+    
+                        firm: { form: "ООО", name: item.visitor.firm.name, },
+                        work: { description: item.description, place: item.place },
+    
+                        person: {
+                            coordinator: {
+                                surname: item.employee[0].surname,
+                                name: item.employee[0].name,
+                                patronymic: item.employee[0].patronymic,
+                                position: item.employee[0].position
+                            },
+                
+                            representative: {
+                                surname: item.employee[1].surname,
+                                name: item.employee[1].name,
+                                patronymic: item.employee[1].patronymic,
+                                position: item.employee[1].position
+                            },
+                
+                            contractor: {
+                                surname: item.visitor.surname,
+                                name: item.visitor.name,
+                                patronymic: item.visitor.patronymic,
+                                position: item.visitor.position,
+                            }
+                        },
+    
+                        maps: JSON.parse( item.map.maps ),
+                    })
+                })
+                context.commit('getActs', acts)
+
+                resolve('success')
+            })
         })
     }
   } 

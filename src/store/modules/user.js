@@ -15,6 +15,7 @@ const getters = {
   isLoggedIn: state => !!state.token,
   authStatus: state => state.isAuth,
   token: state => state.token,
+  checkRole: state => role => state.roles.includes(role),
   actRole: state => {
     let result = state.ACT_ROLES.filter(v1 => {
       return state.roles.some(v2 => v1 == v2)

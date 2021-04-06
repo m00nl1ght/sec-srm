@@ -17,7 +17,7 @@ export default {
     methods: {
         onClick(event) {
             this.isActive = !this.isActive
-            this.$emit('onChange', this.row + '_' + this.col)
+            this.$emit('onChange', this.col + '_' + this.row)
         }
     },
 
