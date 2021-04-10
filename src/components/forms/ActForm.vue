@@ -1,5 +1,5 @@
 <template>
-    <v-form class="px-8 pt-5" @submit.prevent="onSubmit">
+    <v-form ref="form" class="px-8 pt-5" @submit.prevent="onSubmit">
 
         <Contract :contract="contract" @onChange="onChangeElem" />
 
@@ -39,6 +39,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 import Contract from './items/Contract'
 import Tz from './items/Tz'
 import Work from './items/Work'
@@ -110,66 +112,79 @@ export default {
     }),
 
     methods: {
+        ...mapActions("snackbar", ["showSnack"]),
+
         onSubmit() {
-            const sendData = {
-                coordinator: {
-                    name: this.person.coordinator.name.value, 
-                    surname: this.person.coordinator.surname.value,
-                    patronymic: this.person.coordinator.patronymic.value,
-                    position: this.person.coordinator.position.value
-                },
-
-                representative: {
-                    name: this.person.representative.name.value, 
-                    surname: this.person.representative.surname.value,
-                    patronymic: this.person.representative.patronymic.value,
-                    position: this.person.representative.position.value
-                },
-
-                contractor: {
-                    name: this.person.contractor.name.value, 
-                    surname: this.person.contractor.surname.value,
-                    patronymic: this.person.contractor.patronymic.value,
-                    position: this.person.contractor.position.value
-                },
-
-                datetime: {
-                    from_date: this.datetime.from_date.value,
-                    till_date: this.datetime.till_date.value,
-                    from_time: this.datetime.from_time.value,
-                    till_time: this.datetime.till_time.value,
-                    weekend: this.datetime.weekend.value,
-                },
-
-                contract: {
-                    number: this.contract.number.value,
-                    url: this.contract.url.value,
-                },
-
-                tz: {
-                    number: this.tz.number.value,
-                    url: this.tz.url.value,
-                },
-
-                firm: {
-                    form: this.firm.form.value,
-                    name: this.firm.name.value,
-                },
-
-                work: {
-                    description: this.work.description.value,
-                    place: this.work.place.value,
-                },
-
-                checkboxes: this.$store.state.checkboxBlock.checkBoxValue,
-                map: this.mapCheckedItems,
-                
-                roles: this.$store.state.user.roles
-            }
-
-            this.$http.post('api/act', sendData)      
-            .then(res => console.log(res))
+            console.log( this.$refs.form.validate())
         },
+        // onSubmit() {
+        //     const sendData = {
+        //         coordinator: {
+        //             name: this.person.coordinator.name.value, 
+        //             surname: this.person.coordinator.surname.value,
+        //             patronymic: this.person.coordinator.patronymic.value,
+        //             position: this.person.coordinator.position.value
+        //         },
+
+        //         representative: {
+        //             name: this.person.representative.name.value, 
+        //             surname: this.person.representative.surname.value,
+        //             patronymic: this.person.representative.patronymic.value,
+        //             position: this.person.representative.position.value
+        //         },
+
+        //         contractor: {
+        //             name: this.person.contractor.name.value, 
+        //             surname: this.person.contractor.surname.value,
+        //             patronymic: this.person.contractor.patronymic.value,
+        //             position: this.person.contractor.position.value
+        //         },
+
+        //         datetime: {
+        //             from_date: this.datetime.from_date.value,
+        //             till_date: this.datetime.till_date.value,
+        //             from_time: this.datetime.from_time.value,
+        //             till_time: this.datetime.till_time.value,
+        //             weekend: this.datetime.weekend.value,
+        //         },
+
+        //         contract: {
+        //             number: this.contract.number.value,
+        //             url: this.contract.url.value,
+        //         },
+
+        //         tz: {
+        //             number: this.tz.number.value,
+        //             url: this.tz.url.value,
+        //         },
+
+        //         firm: {
+        //             form: this.firm.form.value,
+        //             name: this.firm.name.value,
+        //         },
+
+        //         work: {
+        //             description: this.work.description.value,
+        //             place: this.work.place.value,
+        //         },
+
+        //         checkboxes: this.$store.state.checkboxBlock.checkBoxValue,
+        //         map: this.mapCheckedItems,
+                
+        //         roles: this.$store.state.user.roles
+        //     }
+
+        //     this.$store.dispatch('acts/addAct', sendData)   
+        //     .then(res => {
+        //         if(res == 'success') {
+        //             this.showSnack({
+        //                 text: "Данные успешно сохранены!",
+        //                 color: "success",
+        //                 timeout: 3500,
+        //             });
+        //         }
+        //     })
+        // },
 
         onChangeElem(elem) {
             const strArr = elem.name.split('-')

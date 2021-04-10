@@ -1,7 +1,17 @@
 import {HTTP} from '@/plugins/axios'
 
 const state = () => ({
-    acts: []
+    acts: [],
+    formData: {
+        contract: {
+            number: '',
+            url: ''
+        },
+        tz: {
+            number: '',
+            url: ''
+        },
+    }
   })
   
   // getters
@@ -47,6 +57,20 @@ const state = () => ({
                 })
             }
         })
+    },
+
+    addAct(context, data) {
+        return new Promise((resolve, reject) => {
+            HTTP.post('api/act', data, 
+            {
+                headers: {
+                    Authorization: 'Bearer ' + context.rootState.user.token
+                }
+            })
+            .then(() => resolve('success'))
+            .catch(err => console.log(err))
+        })
+
     },
 
     getActs(context) {

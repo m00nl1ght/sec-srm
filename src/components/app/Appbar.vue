@@ -10,6 +10,12 @@
         <span class="new">Войти</span>
       </v-btn>
     </div>
+      <div v-if="!isLoggedIn">
+      <v-btn  @click.prevent="register" href="#">
+        <v-icon>mdi-import</v-icon>
+        <span class="new">Регистрация</span>
+      </v-btn>
+    </div>
 
     <div v-else  class="d-flex align-center">
       <div class="mr-5">
@@ -47,6 +53,9 @@
 
       logout() {
         this.$router.push('logout')
+      },
+      register() {
+        this.$router.push('register')
       }
     },
 

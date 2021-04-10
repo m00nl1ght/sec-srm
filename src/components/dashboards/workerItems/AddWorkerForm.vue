@@ -104,7 +104,7 @@ export default {
                 this.id = 1
                 this.basic = [{ surname: "", name: "", patronymic: "", position: "", firm: "", files: [] }]
                 this.saveDetails()
-                this.$emit('getWorkers', this.actId)
+                this.$emit('getWorkers')
             })
         },
 

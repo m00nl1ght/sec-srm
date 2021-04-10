@@ -8,7 +8,8 @@
         />
 
         <AddWorkerForm
-            :actId='actId' 
+            :actId='actId'
+            @getWorkers='getWorkers' 
         />
         
         <AddFileModal />
@@ -30,6 +31,18 @@ export default {
     data: () => ({
         active: true
     }),
+
+    methods: {
+        getWorkers() {
+            this.active = false
+            this.$store.dispatch('worker/getWorkers', this.actId)
+            .then(res => {
+                if(res == 'success') {
+                    this.active = false
+                }
+            })
+        }
+    },
 
     computed: {
         workers() {
