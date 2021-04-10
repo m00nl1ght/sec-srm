@@ -3,32 +3,56 @@
 
         <Contract 
             :title='{ number: "Номер договора", url: "Ссылка на договор"}'
+            :value="formData.contract"
+            @onChange="onChange"
         />
 
         <Tz 
             :title='{ number: "Номер ТЗ", url: "Ссылка на ТЗ"}'
+            :value="formData.tz"
+            @onChange="onChange"
         />
 
         <Person
-            v-bind:person="person.coordinator"
-            @onChange="onChangePerson"
+            :label='{ name: "Имя координатора проекта", surname: "Фамилия координатора проекта", patronymic: "Отчество координатора проекта", position: "Должность координатора проекта"}'
+            :value="formData.coordinator"
+            :nameKey="'coordinator'"
+            @onChange="onChange"
         />
 
         <Person
-            v-bind:person="person.representative"
-            @onChange="onChangePerson"
+            :label='{ name: "Имя представителя КЛААС", surname: "Фамилия представителя КЛААС", patronymic: "Отчество представителя КЛААС", position: "Должность представителя КЛААС"}'
+            :value="formData.representative"
+            :nameKey="'representative'"
+            @onChange="onChange"
         />
 
-        <Firm :firm="firm" @onChange="onChangeElem" />
+        <Firm 
+            :title='{ name: "Название организации исполнителя", form: "Форма организации исполнителя"}'
+            :value="formData.firm"
+            @onChange="onChange"
+        />
 
         <Person
-            v-bind:person="person.contractor"
-            @onChange="onChangePerson"
+            :label='{ name: "Имя представителя подрядчика", surname: "Фамилия представителя подрядчика", patronymic: "Отчество представителя подрядчика", position: "Должность представителя подрядчика"}'
+            :value="formData.contractor"
+            :nameKey="'contractor'"
+            @onChange="onChange"
         />
 
-        <Work :work="work" @onChange="onChangeElem" />
+        <Work 
+            :title='{ description: "Описание работ", place: "Место проведения работ"}'
+            :value="formData.firm"
+            @onChange="onChange"
+        />
 
-        <Datetime :datetime="datetime" @onChange="onChangeElem" @onChangeCheckbox="onChangeCheckbox" />
+        <Datetime
+            :label='{ from_date: "C", till_date: "По", from_time: "C", till_time: "По", weekend: "Включая выходные"}'
+            :value="formData.datetime"
+            :nameKey="'datetime'"
+            @onChange="onChange"
+            @onChangeCheckbox="() => this.$store.commit('acts/changeWeekend')" 
+        />
 
         <Maps 
             class="map-block"
@@ -53,6 +77,8 @@ import Datetime from './items/Datetime'
 import Maps from '@/components/maps/Maps'
 import SubmitButton from '@/components/forms/button/SubmitButton'
 
+import {mapState} from 'vuex'
+
 
 export default {
     components: { Person, Contract, Tz, Work, Firm, CheckboxBlock, Datetime, Maps, SubmitButton },
@@ -65,55 +91,17 @@ export default {
             till_time: {label: "По", name: "datetime-till_time", value:""},
             weekend: {label: "Включая выхоные", name: "datetime-weekend", value: false}
         },
-
-        contract: {
-            number: {label: "Номер договора", name: "contract-number", value:""},
-            url: {label: "Ссылка на договор", name: "contract-url", value:""}
-        },
-
-        tz: {
-            number: {label: "Номер ТЗ", name: "tz-number", value:""},
-            url: {label: "Ссылка на ТЗ", name: "tz-url", value:""}
-        },
-
-        firm: {
-            form: {label: "Форма организации исполнителя", name: "firm-form", value:""},
-            name: {label: "Название организации исполнителя", name: "firm-name", value:""}
-        },
-
-        work: {
-            description: {label: "Описание работ", name: "work-description", value:""},
-            place: {label: "Место проведения работ", name: "work-place", value:""}
-        },
-
-        person: {
-            coordinator: {
-                surname: {label: "Фамилия координатора проекта", name: "coordinator-surname", value:""},
-                name: {label: "Имя координатора проекта", name: "coordinator-name", value:""},
-                patronymic: {label: "Отчество координатора проекта", name: "coordinator-patronymic", value:""},
-                position: {label: "Должность координатора проекта", name: "coordinator-position", value:""},
-            },
-
-            representative: {
-                surname: {label: "Фамилия представителя КЛААС", name: "representative-surname", value:""},
-                name: {label: "Имя представителя КЛААС", name: "representative-name", value:""},
-                patronymic: {label: "Отчество представителя КЛААС", name: "representative-patronymic", value:""},
-                position: {label: "Должность представителя КЛААС", name: "representative-position", value:""},
-            },
-
-            contractor: {
-                surname: {label: "Фамилия представителя подрядчика", name: "contractor-surname", value:""},
-                name: {label: "Имя представителя подрядчика", name: "contractor-name", value:""},
-                patronymic: {label: "Отчество представителя подрядчика", name: "contractor-patronymic", value:""},
-                position: {label: "Должность представителя подрядчика", name: "contractor-position", value:""},
-            }
-        },
-
         mapCheckedItems: []
 
     }),
 
     methods: {
+        onChange(elem) {
+            this.$store.commit('acts/changeForm', {
+                name: elem.name,
+                value: elem.value
+            })
+        },
         onSubmit() {
             const sendData = {
                 coordinator: {
@@ -175,30 +163,6 @@ export default {
             .then(res => console.log(res))
         },
 
-        onChangeElem(elem) {
-            const strArr = elem.name.split('-')
-            this[strArr[0]][strArr[1]].value = elem.value
-        },
-
-        onChangePerson(elem) {
-            const strArr = elem.name.split('-')
-
-            for (const iterator in this.person) {
-                if (iterator == strArr[0]) {
-                    for (const item in this.person[iterator]) {
-                        if (item == strArr[1]) {
-                            this.person[iterator][item].value = elem.value
-                        }
-                    }
-                }
-
-            }
-        },
-
-        onChangeCheckbox() {
-            this.datetime.weekend.value = !this.datetime.weekend.value
-        },
-
         onChangeMap(e) {
             if(this.mapCheckedItems.indexOf(e) != -1){
                 this.mapCheckedItems = this.mapCheckedItems.filter((elem) => elem != e)
@@ -206,7 +170,13 @@ export default {
                 this.mapCheckedItems.push(e)
             }
         }
-    },  
+    },
+
+    computed: {
+        ...mapState('acts', [
+            'formData'
+        ])
+    }
 }
 </script>
 

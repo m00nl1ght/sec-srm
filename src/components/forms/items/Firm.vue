@@ -2,16 +2,18 @@
   <div class="row">
     <div class="col-6">
       <v-text-field
-        :label="firm.form.label"
-        :name="firm.form.name"
+        :label="title.form"
+        :value="value.form"
+        name="firm-form"
         @input="onChange"
       ></v-text-field>
     </div>
 
     <div class="col-6">
       <v-text-field
-        :label="firm.name.label"
-        :name="firm.name.name"
+        :label="title.name"
+        :value="value.name"
+        name="firm-name"
         @input="onChange"
       ></v-text-field>
     </div>
@@ -20,7 +22,7 @@
 
 <script>
 export default {
-  props: ['firm'],
+  props: ['title', 'value'],
 
     methods: {
         onChange() {

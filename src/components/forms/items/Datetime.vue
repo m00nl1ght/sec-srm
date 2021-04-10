@@ -7,16 +7,18 @@
         <v-text-field
             class="col-6"
             type="date"
-            :label="datetime.from_date.label"
-            :name="datetime.from_date.name"
+            :label="label.from_date"
+            :value="value.from_date"
+            :name="nameKey + '-from_date'"
             @input="onChange"
         ></v-text-field>
 
         <v-text-field
             class="col-6"
             type="date"
-            :label="datetime.till_date.label"
-            :name="datetime.till_date.name"
+            :label="label.till_date"
+            :value="value.till_date"
+            :name="nameKey + '-till_date'"
             @input="onChange"
         ></v-text-field>
         </div>
@@ -29,16 +31,18 @@
             <v-text-field
             class="col-6"
                 type="time"
-                :label="datetime.from_time.label"
-                :name="datetime.from_time.name"
+                :label="label.from_time"
+                :value="value.from_time"
+                :name="nameKey + '-from_time'"
                 @input="onChange"
             ></v-text-field>
 
             <v-text-field
                 class="col-6"
                 type="time"
-                :label="datetime.till_time.label"
-                :name="datetime.till_time.name"
+                :label="label.till_time"
+                :value="value.till_time"
+                :name="nameKey + '-till_time'"
                 @input="onChange"
             ></v-text-field>
 
@@ -47,8 +51,8 @@
         <v-checkbox
             class="ma-0"
             type="checkbox"
-            :label="datetime.weekend.label"
-            :name="datetime.weekend.name"
+            :label="label.weekend"
+            :value="value.weekend"
             @change="onChangeCheckbox"
         ></v-checkbox>
     </div>
@@ -57,7 +61,7 @@
 
 <script>
 export default {
-    props: ['datetime'],
+    props: ['label', 'value', 'nameKey'],
 
     methods: {
     onChange() {

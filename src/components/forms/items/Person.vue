@@ -2,32 +2,36 @@
   <div class="row">
     <div class="col-3">
       <v-text-field
-        :label="person.surname.label"
-        :name="person.surname.name"
+        :label="label.surname"
+        :name='nameKey + "-surname"'
+        :value="value.surname"
         @input="onChange"
       ></v-text-field>
     </div>
 
     <div class="col-3">
       <v-text-field
-        :label="person.name.label"
-        :name="person.name.name"
+        :label="label.name"
+        :name='nameKey + "-name"'
+        :value="value.name"
         @input="onChange"
       ></v-text-field>
     </div>
 
     <div class="col-3">
       <v-text-field
-        :label="person.patronymic.label"
-        :name="person.patronymic.name"
+        :label="label.patronymic"
+        :name='nameKey + "-patronymic"'
+        :value="value.patronymic"
         @input="onChange"
       ></v-text-field>
     </div>
 
     <div class="col-3">
       <v-text-field
-        :label="person.position.label"
-        :name="person.position.name"
+        :label="label.position"
+        :name='nameKey + "-position"'
+        :value="value.position"
         @input="onChange"
       ></v-text-field>
     </div>
@@ -36,11 +40,7 @@
 
 <script>
 export default {
-    data: () => ({
-
-    }),
-
-    props: ['person'],
+    props: ['label', 'value', 'nameKey' ],
 
     methods: {
         onChange() {

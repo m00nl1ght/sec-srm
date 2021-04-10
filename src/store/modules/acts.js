@@ -1,7 +1,50 @@
 import {HTTP} from '@/plugins/axios'
 
 const state = () => ({
-    acts: []
+    acts: [],
+    formData: {
+        contract: {
+            number: '',
+            url: ''
+        },
+        tz: {
+            number: '',
+            url: ''
+        },
+        firm: {
+            form: '',
+            name: ''
+        },
+        work: {
+            description: '',
+            place: ''
+        },
+        coordinator: {
+            name: '',
+            surname: '',
+            patronymic: '',
+            position: ''
+        },
+        representative: {
+            name: '',
+            surname: '',
+            patronymic: '',
+            position: ''
+        },
+        contractor: {
+            name: '',
+            surname: '',
+            patronymic: '',
+            position: ''
+        },
+        datetime: {
+            from_date: '',
+            till_date: '',
+            from_time: '',
+            till_time: '',
+            weekend: false
+        },
+    }
   })
   
   // getters
@@ -109,12 +152,32 @@ const state = () => ({
   
   // mutations
   const mutations = {
-    changeStatus(state, props) {
-        state.acts[props.index].approvers = props.currentStatus
+    changeStatus(context, props) {
+        context.acts[props.index].approvers = props.currentStatus
     },
 
-    getActs(state, props) {
-        state.acts = props
+    getActs(context, props) {
+        context.acts = props
+    },
+
+    changeForm(context, props) {
+        const strArr = props.name.split('-')
+        const changedItem = context.formData[strArr[0]]
+
+        changedItem[strArr[1]] = props.value
+        
+        context.formData = {
+            ...context.formData, changedItem
+        }
+    },
+
+    changeWeekend(context) {
+        const datetime = context.formData.datetime
+        datetime.weekend = !datetime.weekend
+
+        context.formData = {
+            ...context.formData, datetime
+        }
     }
   }
   
