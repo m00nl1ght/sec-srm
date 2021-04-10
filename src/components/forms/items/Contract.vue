@@ -2,17 +2,13 @@
   <div class="row">
     <div class="col-3">
       <v-text-field
-        :label="contract.number.label"
-        :name="contract.number.name"
-        @input="onChange"
+        :label="title.number"
       ></v-text-field>
     </div>
 
     <div class="col-9">
       <v-text-field
-        :label="contract.url.label"
-        :name="contract.url.name"
-        @input="onChange"
+        :label="title.url"
       ></v-text-field>
     </div>
   </div>
@@ -20,7 +16,7 @@
 
 <script>
 export default {
-  props: ['contract'],
+  props: ['title'],
 
   methods: {
     onChange() {

@@ -1,9 +1,13 @@
 <template>
     <v-form class="px-8 pt-5" @submit.prevent="onSubmit">
 
-        <Contract :contract="contract" @onChange="onChangeElem" />
+        <Contract 
+            :title='{ number: "Номер договора", url: "Ссылка на договор"}'
+        />
 
-        <Tz :tz="tz" @onChange="onChangeElem" />
+        <Tz 
+            :title='{ number: "Номер ТЗ", url: "Ссылка на ТЗ"}'
+        />
 
         <Person
             v-bind:person="person.coordinator"
