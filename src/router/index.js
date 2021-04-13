@@ -2,12 +2,13 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import { store } from '../store'
 import Home from '../views/Home.vue'
+import config from '@/config/config.js'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '',
+    path: config.BASE_VIEW_URL,
     name: 'home',
     meta: {layout: 'main'},
     component: Home
@@ -33,20 +34,20 @@ const routes = [
   },
 
   {
-    path: '/main',
+    path: config.BASE_VIEW_URL + '/main',
     name: 'main',
     meta: {layout: 'main', requiresAuth: true},
     component: () => import('@/views/Main.vue')
   },
 
   {
-    path: '/dashboard',
+    path: config.BASE_VIEW_URL + '/dashboard',
     name: 'dashboard',
     meta: {layout: 'main'},
     component: () => import('@/views/Dashboard.vue')
   },
   {
-    path: '/printact/:id',
+    path: config.BASE_VIEW_URL + '/printact/:id',
     name: 'printact',
     meta: {layout: 'print'},
     props: true,

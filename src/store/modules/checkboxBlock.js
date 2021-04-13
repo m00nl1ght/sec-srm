@@ -75,9 +75,17 @@ const actions = {
 
 // mutations
 const mutations = {
-  changedForm(state, item)  {
-    state.checkBoxValue = {...state.checkBoxValue, ...item}
-  }
+    changedForm(state, item)  {
+        state.checkBoxValue = {...state.checkBoxValue, ...item}
+    },
+
+    resetForm(context) {
+        context.checkBoxValue = {
+            build: [],
+            warm: [],
+            another: []
+        }
+    }
 }
 
 export default {

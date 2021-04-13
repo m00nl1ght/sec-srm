@@ -147,6 +147,27 @@ const state = () => ({
                 resolve('success')
             })
         })
+    },
+
+    storeActs(context) {
+        return new Promise((resolve) => {
+            HTTP.post('api/act', {
+                ...context.state.formData,
+                map: context.rootState.maps.mapCheckedItems,
+                checkboxes: context.rootState.checkboxBlock.checkBoxValue,
+                roles: context.rootState.user.roles
+            },
+            {
+                headers: {
+                    Authorization: 'Bearer ' + context.rootState.user.token
+                }
+            })      
+            .then(res => {
+                if(res.data.status_code == 201) {
+                    resolve('success')
+                }
+            })
+        })
     }
   } 
   
@@ -177,6 +198,52 @@ const state = () => ({
 
         context.formData = {
             ...context.formData, datetime
+        }
+    },
+
+    resetForm(context) {
+        context.formData = {
+            contract: {
+                number: '',
+                url: ''
+            },
+            tz: {
+                number: '',
+                url: ''
+            },
+            firm: {
+                form: '',
+                name: ''
+            },
+            work: {
+                description: '',
+                place: ''
+            },
+            coordinator: {
+                name: '',
+                surname: '',
+                patronymic: '',
+                position: ''
+            },
+            representative: {
+                name: '',
+                surname: '',
+                patronymic: '',
+                position: ''
+            },
+            contractor: {
+                name: '',
+                surname: '',
+                patronymic: '',
+                position: ''
+            },
+            datetime: {
+                from_date: '',
+                till_date: '',
+                from_time: '',
+                till_time: '',
+                weekend: false
+            },
         }
     }
   }

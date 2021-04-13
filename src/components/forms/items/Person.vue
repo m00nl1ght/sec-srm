@@ -6,6 +6,7 @@
         :name='nameKey + "-surname"'
         :value="value.surname"
         @input="onChange"
+        :rules="[rules.required]"
       ></v-text-field>
     </div>
 
@@ -15,6 +16,7 @@
         :name='nameKey + "-name"'
         :value="value.name"
         @input="onChange"
+        :rules="[rules.required, rules.counter]"
       ></v-text-field>
     </div>
 
@@ -33,6 +35,7 @@
         :name='nameKey + "-position"'
         :value="value.position"
         @input="onChange"
+        :rules="[rules.required]"
       ></v-text-field>
     </div>
   </div>
@@ -40,7 +43,16 @@
 
 <script>
 export default {
-    props: ['label', 'value', 'nameKey' ],
+    props: ['label', 'value', 'nameKey'],
+
+    data () {
+      return {
+        rules: {
+            required: value => !!value || 'Required.',
+            counter: value => value.length > 1 || 'Write full name',
+        },
+      }
+    },
 
     methods: {
         onChange() {

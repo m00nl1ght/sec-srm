@@ -6,6 +6,7 @@
         :value="value.number"
         name="contract-number"
         @input="onChange"
+        :rules="[rules.required]"
       ></v-text-field>
     </div>
 
@@ -15,6 +16,7 @@
         :value="value.number"
         name="contract-url"
         @input="onChange"
+        :rules="[rules.required]"
       ></v-text-field>
     </div>
   </div>
@@ -22,7 +24,15 @@
 
 <script>
 export default {
-  props: ['title', 'value'],
+    props: ['title', 'value'],
+
+    data () {
+        return {
+            rules: {
+                required: value => !!value || 'Required.'
+            },
+        }
+    },
 
   methods: {
     onChange() {

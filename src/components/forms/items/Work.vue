@@ -6,6 +6,7 @@
         :value="value.description"
         name="work-description"
         @input="onChange"
+        :rules="[rules.required]"
       ></v-text-field>
     </div>
 
@@ -15,6 +16,7 @@
         :value="value.place"
         name="work-place"
         @input="onChange"
+        :rules="[rules.required]"
       ></v-text-field>
     </div>
   </div>
@@ -22,12 +24,20 @@
 
 <script>
 export default {
-  props: ['title', 'value'],
+  props: ["title", "value"],
+
+  data() {
+    return {
+      rules: {
+        required: (value) => !!value || "Required.",
+      },
+    };
+  },
 
   methods: {
-      onChange() {
-        this.$emit('onChange', event.target)
-      }
-  }
-}
+    onChange() {
+      this.$emit("onChange", event.target);
+    },
+  },
+};
 </script>

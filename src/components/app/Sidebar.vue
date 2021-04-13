@@ -41,9 +41,9 @@
     data: () => ({
       drawen: null,
       items: [
-        { title: 'Home', url: "/", icon: 'mdi-image' },
-        { title: 'Dashboard', url: "/dashboard", icon: 'mdi-view-dashboard' },
-        { title: 'New act', url: "/main", icon: 'mdi-image' },
+        { title: 'Home', url: {name: 'home'}, icon: 'mdi-image' },
+        { title: 'Dashboard', url: {name: 'dashboard'}, icon: 'mdi-view-dashboard' },
+        { title: 'New act', url: {name: 'main'}, icon: 'mdi-image' },
       ],
       right: null,
     }),

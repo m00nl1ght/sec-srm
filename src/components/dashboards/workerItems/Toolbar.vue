@@ -46,7 +46,7 @@ export default {
         },
 
         changeStatus(status, id){
-            this.$store.dispatch('worker/changeStatus', {id, status})
+            this.$store.dispatch('worker/changeStatus', { id, status, actId: this.actId })
         },
 
         onDelete() {

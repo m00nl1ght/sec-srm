@@ -41,8 +41,6 @@ import {mapState} from 'vuex'
 export default {
   components: { CheckboxCard },
 
-  data: () => ({
-  }),
 
   methods: {
     onChange(value, index) {

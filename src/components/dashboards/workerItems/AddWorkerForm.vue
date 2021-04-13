@@ -1,24 +1,24 @@
 <template>
-    <v-form @submit.prevent="onSubmit">
+    <v-form @submit.prevent="onSubmit" ref="form">
         <div class="row mt-4 mb-5 worker" v-for="item in basic" :key="item.id">
             <div class="col-3 py-0">
-                <v-text-field label="Фамилия" v-model="item.surname"></v-text-field>
+                <v-text-field label="Фамилия" v-model="item.surname" :rules="[rules.required, rules.counter]"></v-text-field>
             </div>
 
             <div class="col-3 py-0">
-                <v-text-field label="Имя" v-model="item.name"></v-text-field>
+                <v-text-field label="Имя" v-model="item.name" :rules="[rules.required, rules.counter]"></v-text-field>
             </div>
 
             <div class="col-3 py-0">
-                <v-text-field label="Отчество" v-model="item.patronymic"></v-text-field>
+                <v-text-field label="Отчество" v-model="item.patronymic" :rules="[rules.required, rules.counter]"></v-text-field>
             </div>
 
             <div class="col-3 py-0">
-                <v-text-field label="Должность" v-model="item.position"></v-text-field>
+                <v-text-field label="Должность" v-model="item.position" :rules="[rules.required]"></v-text-field>
             </div>
 
             <div class="col-3 py-0">
-                <v-text-field label="Организация" v-model="item.firm"></v-text-field>
+                <v-text-field label="Организация" v-model="item.firm" :rules="[rules.required]"></v-text-field>
             </div>
 
             <div class="col-9 py-0">
@@ -31,12 +31,13 @@
             </div>
         </div>
 
-        <div class="d-flex justify-space-between align-center mt-2"> 
-        <SubmitButton />
+        <div class="d-flex justify-end align-center mt-2"> 
+        <!-- <SubmitButton /> -->
 
-        <AddCircleButton 
+        <!-- <AddCircleButton 
             @onClick="addRow"
-        />
+        /> -->
+        <SubmitCircleButton />
         </div>
     </v-form>
 
@@ -45,16 +46,21 @@
 <script>
 import AddCircleButton from '@/components/forms/button/AddCircleButton'
 import SubmitButton from '@/components/forms/button/SubmitButton'
+import SubmitCircleButton from '@/components/forms/button/SubmitCircleButton'
 import { mapActions } from 'vuex'
 
 export default {
-    components: {AddCircleButton, SubmitButton},
+    components: {AddCircleButton, SubmitButton, SubmitCircleButton},
     props: ['actId'],
 
     data () {
         return {
             id: 1,
-            basic: [{ surname: "", name: "", patronymic: "", position: "", firm: "", files: [] }]
+            basic: [{ surname: "", name: "", patronymic: "", position: "", firm: "", files: [] }],
+            rules: {
+                required: value => !!value || 'Required.',
+                counter: value => value.length > 1 || 'Write full name'
+            },
         }; 
     },
 
@@ -81,31 +87,16 @@ export default {
         },
 
         onSubmit() {
-            let data = new FormData()
-            data.append('actId', this.actId)
-
-            this.basic.forEach((item, index) => {
-               data.append(index + '-name', item.name)
-               data.append(index + '-surname', item.surname)
-               data.append(index + '-patronymic', item.patronymic)
-               data.append(index + '-position', item.position)
-               data.append(index + '-firm', item.firm)
-               item.files.forEach((file, i) => {
-                   data.append(index + '-files[' + i + ']', file)
-               })
-            })
-
-            this.$http.post('api/worker', data, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                },
-            })      
-            .then(() => {
-                this.id = 1
-                this.basic = [{ surname: "", name: "", patronymic: "", position: "", firm: "", files: [] }]
-                this.saveDetails()
-                this.$emit('getWorkers', this.actId)
-            })
+            if(this.$refs.form.validate()) {
+                this.$store.dispatch('worker/addWorker', { actId: this.actId, basic: this.basic })
+                .then((res) => {
+                    if(res == 'success') {
+                        this.id = 1
+                        this.basic = [{ surname: "", name: "", patronymic: "", position: "", firm: "", files: [] }]
+                        this.saveDetails()
+                    }
+                })
+            }
         },
 
     }
@@ -116,4 +107,5 @@ export default {
     .worker {
         background: #F1F8E9;
     }
+
 </style>

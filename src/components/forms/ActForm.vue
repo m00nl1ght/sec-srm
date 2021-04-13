@@ -1,5 +1,10 @@
 <template>
-    <v-form class="px-8 pt-5" @submit.prevent="onSubmit">
+    <v-form 
+        class="px-8 pt-5" 
+        @submit.prevent="onSubmit"
+        ref="form"
+        v-model="valid"
+    >
 
         <Contract 
             :title='{ number: "Номер договора", url: "Ссылка на договор"}'
@@ -56,7 +61,7 @@
 
         <Maps 
             class="map-block"
-            :checkedItems='mapCheckedItems'
+            :checkedItems='mapChecked'
             @onChange='onChangeMap'
         /> 
 
@@ -77,25 +82,19 @@ import Datetime from './items/Datetime'
 import Maps from '@/components/maps/Maps'
 import SubmitButton from '@/components/forms/button/SubmitButton'
 
-import {mapState} from 'vuex'
+import {mapState, mapActions} from 'vuex'
 
 
 export default {
     components: { Person, Contract, Tz, Work, Firm, CheckboxBlock, Datetime, Maps, SubmitButton },
 
     data: () => ({
-        datetime: {
-            from_date: {label: "C", name: "datetime-from_date", value:""},
-            till_date: {label: "По", name: "datetime-till_date", value:""},
-            from_time: {label: "C", name: "datetime-from_time", value:""},
-            till_time: {label: "По", name: "datetime-till_time", value:""},
-            weekend: {label: "Включая выхоные", name: "datetime-weekend", value: false}
-        },
-        mapCheckedItems: []
-
+        valid: true,
     }),
 
     methods: {
+        ...mapActions("snackbar", ["showSnack"]),
+
         onChange(elem) {
             this.$store.commit('acts/changeForm', {
                 name: elem.name,
@@ -103,79 +102,46 @@ export default {
             })
         },
         onSubmit() {
-            const sendData = {
-                coordinator: {
-                    name: this.person.coordinator.name.value, 
-                    surname: this.person.coordinator.surname.value,
-                    patronymic: this.person.coordinator.patronymic.value,
-                    position: this.person.coordinator.position.value
-                },
+            if(this.$refs.form.validate()) {
+                this.$store.dispatch('acts/storeActs')
+                .then(res => {
+                    if(res == 'success') {
+                        this.showSnack({
+                            text: "Данные успешно сохранены!",
+                            color: "success",
+                            timeout: 3500,
+                        })
 
-                representative: {
-                    name: this.person.representative.name.value, 
-                    surname: this.person.representative.surname.value,
-                    patronymic: this.person.representative.patronymic.value,
-                    position: this.person.representative.position.value
-                },
-
-                contractor: {
-                    name: this.person.contractor.name.value, 
-                    surname: this.person.contractor.surname.value,
-                    patronymic: this.person.contractor.patronymic.value,
-                    position: this.person.contractor.position.value
-                },
-
-                datetime: {
-                    from_date: this.datetime.from_date.value,
-                    till_date: this.datetime.till_date.value,
-                    from_time: this.datetime.from_time.value,
-                    till_time: this.datetime.till_time.value,
-                    weekend: this.datetime.weekend.value,
-                },
-
-                contract: {
-                    number: this.contract.number.value,
-                    url: this.contract.url.value,
-                },
-
-                tz: {
-                    number: this.tz.number.value,
-                    url: this.tz.url.value,
-                },
-
-                firm: {
-                    form: this.firm.form.value,
-                    name: this.firm.name.value,
-                },
-
-                work: {
-                    description: this.work.description.value,
-                    place: this.work.place.value,
-                },
-
-                checkboxes: this.$store.state.checkboxBlock.checkBoxValue,
-                map: this.mapCheckedItems,
-                
-                roles: this.$store.state.user.roles
+                        this.$router.push({ name: 'home'})
+                    }
+                })
+            } else {
+                this.showSnack({
+                    text: "Данные заполненны некорректно!",
+                    color: "error",
+                    timeout: 3500,
+                });
             }
-
-            this.$http.post('api/act', sendData)      
-            .then(res => console.log(res))
         },
 
-        onChangeMap(e) {
-            if(this.mapCheckedItems.indexOf(e) != -1){
-                this.mapCheckedItems = this.mapCheckedItems.filter((elem) => elem != e)
-            } else {
-                this.mapCheckedItems.push(e)
-            }
+        onChangeMap(checked) {
+            this.$store.dispatch('maps/checkedItem', checked)
         }
     },
 
     computed: {
         ...mapState('acts', [
             'formData'
-        ])
+        ]),
+
+        mapChecked: {
+            get() {
+                return this.$store.getters['maps/getCheckedItems']
+            },
+            set(value) {
+                this.$store.dispatch('maps/checkedItem', value)
+            }
+        }
     }
 }
 </script>

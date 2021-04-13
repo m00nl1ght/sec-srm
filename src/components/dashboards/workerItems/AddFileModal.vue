@@ -54,6 +54,8 @@
 
 <script>
 export default {
+    props: ['actId'],
+
     data: () => ({
         files: [],
         disabled: false
@@ -63,12 +65,7 @@ export default {
         onSubmit() {
             this.disabled = true
             setTimeout(() => this.disabled = false, 3000)
-
-            let data = new FormData()
-            data.append('file', this.files)
-            data.append('keys', 'file')
-
-            this.$store.dispatch('worker/submitModalAddFile', data)
+            this.$store.dispatch('worker/submitModalAddFile', { file: this.files, actId: this.actId })
         }
     },
 

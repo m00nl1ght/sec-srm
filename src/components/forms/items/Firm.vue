@@ -15,6 +15,7 @@
         :value="value.name"
         name="firm-name"
         @input="onChange"
+        :rules="[rules.required]"
       ></v-text-field>
     </div>
   </div>
@@ -22,7 +23,15 @@
 
 <script>
 export default {
-  props: ['title', 'value'],
+    props: ['title', 'value'],
+
+    data () {
+        return {
+            rules: {
+                required: value => !!value || 'Required.'
+            },
+        }
+    },
 
     methods: {
         onChange() {

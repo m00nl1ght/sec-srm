@@ -31,22 +31,17 @@
   export default {
     data: () => ({
       drawen: null,
-      items: [
-        { title: 'Home', url: "/", icon: 'mdi-image' },
-        { title: 'Dashboard', url: "/dashboard", icon: 'mdi-view-dashboard' },
-        { title: 'New act', url: "/main", icon: 'mdi-image' },
-      ],
       right: null,
 
     }),
 
     methods: {
       login() {
-        this.$router.push('login')
+        this.$router.push({name: 'login'})
       },
 
       logout() {
-        this.$router.push('logout')
+        this.$router.push({name: 'logout'})
       }
     },
 

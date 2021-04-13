@@ -7,11 +7,9 @@
             :actId='actId' 
         />
 
-        <AddWorkerForm
-            :actId='actId' 
-        />
+        <AddWorkerForm :actId='actId' />
         
-        <AddFileModal />
+        <AddFileModal :actId='actId'/>
     </v-row>
 </template>
 
@@ -33,7 +31,7 @@ export default {
 
     computed: {
         workers() {
-            return this.$store.getters['worker/getWorkers']
+            return this.$store.getters['worker/getWorkers'](this.actId)
         }
     },
 
