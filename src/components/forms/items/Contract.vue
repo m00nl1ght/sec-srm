@@ -13,7 +13,7 @@
     <div class="col-9">
       <v-text-field
         :label="title.url"
-        :value="value.number"
+        :value="value.url"
         name="contract-url"
         @input="onChange"
         :rules="[rules.required]"

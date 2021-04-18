@@ -142,7 +142,7 @@ const state = () => ({
                         maps: JSON.parse( item.map.maps ),
                     })
                 })
-                context.commit('getActs', acts)
+                context.commit('setActs', acts)
 
                 resolve('success')
             })
@@ -168,16 +168,47 @@ const state = () => ({
                 }
             })
         })
+    },
+
+    editActs(context, id) {
+        HTTP.get('api/act/' + id, {
+            headers: {
+              Authorization: 'Bearer ' + context.rootState.user.token
+            }
+        })
+        .then(res => {
+            context.commit('setForm', res.data)
+            context.commit('checkboxBlock/setCheckboxValue', JSON.parse(res.data.checkboxValue), { root: true })
+            context.commit('maps/setCheckedItems', JSON.parse(res.data.mapCheckedItems), { root: true })
+        })
+    },
+
+    updateActs(context, id) {
+        return new Promise((resolve) => {
+            HTTP.put('/api/act/' + id, 
+            {
+                ...context.state.formData,
+                map: context.rootState.maps.mapCheckedItems,
+                checkboxes: context.rootState.checkboxBlock.checkBoxValue,
+            },
+            {
+                headers: {
+                    Authorization: 'Bearer ' + context.rootState.user.token
+                }
+            })
+            .then(res => console.log(res))
+        })
     }
-  } 
+
+} 
   
   // mutations
-  const mutations = {
+const mutations = {
     changeStatus(context, props) {
         context.acts[props.index].approvers = props.currentStatus
     },
 
-    getActs(context, props) {
+    setActs(context, props) {
         context.acts = props
     },
 
@@ -199,6 +230,10 @@ const state = () => ({
         context.formData = {
             ...context.formData, datetime
         }
+    },
+
+    setForm(context, props) {
+        context.formData = props
     },
 
     resetForm(context) {
@@ -246,12 +281,12 @@ const state = () => ({
             },
         }
     }
-  }
+}
   
-  export default {
+export default {
     namespaced: true,
     state,
     getters,
     actions,
     mutations
-  }
+}

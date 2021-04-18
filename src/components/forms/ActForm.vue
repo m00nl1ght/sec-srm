@@ -47,7 +47,7 @@
 
         <Work 
             :title='{ description: "Описание работ", place: "Место проведения работ"}'
-            :value="formData.firm"
+            :value="formData.work"
             @onChange="onChange"
         />
 
@@ -103,9 +103,9 @@ export default {
         },
         onSubmit() {
             if(this.$refs.form.validate()) {
-                this.$store.dispatch('acts/storeActs')
-                .then(res => {
-                    if(res == 'success') {
+
+                this.$emit('onSubmit', {
+                    done: () => {
                         this.showSnack({
                             text: "Данные успешно сохранены!",
                             color: "success",

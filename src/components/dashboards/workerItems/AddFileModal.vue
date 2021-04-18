@@ -18,7 +18,7 @@
 
                             >
                                 <v-file-input
-                                    accept="image/*"
+                                    accept="image/*, .pdf"
                                     label="File input"
                                     v-model="files"
                                 ></v-file-input>

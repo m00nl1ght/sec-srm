@@ -8,7 +8,7 @@
                     <span class="main_border-top">(место составления)</span>
                 </div>
                 <div class="main-info__city-date_column">
-                    <span>15 июня 2020г.</span>
+                    <span>{{ currentDate() }}</span>
                     <span class="main_border-top">(дата)</span>
                 </div>
             </div> 
@@ -38,19 +38,19 @@
             <div class="flex-container_row">
                 <div>
                     <span>начало</span>
-                    <span class="main__date">{{ items.dates[0] }}</span>
+                    <span class="main__date">{{ parseDate(items.dates[0]) }}</span>
                 </div>
                 <div>
                     <span>окончание</span>
-                    <span class="main__date">{{ items.dates[1] }}</span>
+                    <span class="main__date">{{ parseDate(items.dates[1]) }}</span>
                 </div>  
             </div>
             <div class="main__time-box">
                 <span>время с</span>
-                <span class="main__time">time</span>
+                <span class="main__time">{{ items.times[0].slice(0,-3) }}</span>
                 <span>по</span>
-                <span class="main__time">time</span>
-                <span class="main__weekend">рабочие и выходные дни</span>
+                <span class="main__time">{{ items.times[1].slice(0,-3) }}</span>
+                <span v-if="items.weekend" class="main__weekend">включая выходные дни</span>
             </div>
         </section>
 
@@ -60,7 +60,7 @@
             <p class="main-include__elem">4. По завершении производства работ необходимо выполнить следующие мероприятия:</p>
         </section>
 
-        <section class="signature-box">
+        <section class="signature-box act-print">
             <div class="clearfix">
                 <p>Представитель организации</p>
                 <p class="main__signature main_border-top">(подпись)</p>
@@ -71,17 +71,32 @@
             </div>
             <p class="notes">Примечание: При необходимости производства работ после истечения срока действия настоящего акта-допуска составляется акт-допуск на новый срок.</p>
         </section>
+
+        <Safetyaction :checkedActions="items.checkboxs" />
     </div>
 </template>
 
 <script>
+import Safetyaction from '@/components/print/Safetyaction'
+
 export default {
+    components: { Safetyaction },
     props: ['items'],
+
+    methods: {
+        currentDate() {
+            return new Date().toLocaleDateString()
+        },
+
+        parseDate(date) {
+            return new Date(Date.parse(date)).toLocaleDateString()
+        },
+    },
 
     computed: {
         coordinator: function() {
             return (`
-                ${this.items.person.coordinator.surname} ${this.items.person.coordinator.name} ${this.items.person.coordinator.patronymic}, 
+                ${this.items.person.coordinator.surname} ${this.items.person.coordinator.name.slice} ${this.items.person.coordinator.patronymic}, 
                 ${this.items.person.coordinator.position}
             `)
         },
@@ -96,6 +111,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+    @media print {
+        .act-print {
+            page-break-after: always;
+        }
+    }
+
     .main {
         width: 210mm;
         padding: 10mm 10mm;
@@ -244,24 +265,5 @@ export default {
 
     .notes {
         margin-top: 30px;
-    }
-
-    .main__table {
-        border-collapse: collapse;
-        font-size: 10px;
-
-        & th {
-            padding: 3px;
-            border: 1px solid #000;
-        }
-
-        & td {
-            padding: 3px;
-            border: 1px solid #000;
-        }
-    }
-
-    .main__table-name {
-        font-size: 16px;
     }
 </style>

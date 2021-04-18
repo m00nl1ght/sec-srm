@@ -42,8 +42,8 @@
       drawen: null,
       items: [
         { title: 'Home', url: {name: 'home'}, icon: 'mdi-image' },
-        { title: 'Dashboard', url: {name: 'dashboard'}, icon: 'mdi-view-dashboard' },
-        { title: 'New act', url: {name: 'main'}, icon: 'mdi-image' },
+        { title: 'Dashboard', url: {name: 'act-dashboard'}, icon: 'mdi-view-dashboard' },
+        { title: 'New act', url: {name: 'act-new'}, icon: 'mdi-image' },
       ],
       right: null,
     }),

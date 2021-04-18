@@ -24,17 +24,17 @@
                     <div class="d-flex flex-column py-3">
                         <span>
                             <strong>Руководитель проекта: </strong>
-                            {{item.person.coordinator.surname}}
+                            {{ shortName(item.person.coordinator) }}
                         </span>
 
-                        <span><strong>Координатор проекта со стороны КЛААС: </strong>{{item.person.representative.surname}}</span>
-                        <span><strong>Представитель подрядной организации: </strong>{{item.person.contractor.surname}}</span>
+                        <span><strong>Координатор проекта со стороны КЛААС: </strong>{{ shortName(item.person.representative) }}</span>
+                        <span><strong>Представитель подрядной организации: </strong>{{ shortName(item.person.contractor) }}</span>
                     </div>
 
                     <v-divider class="mx-4"></v-divider>
 
                     <div class="d-flex flex-column py-3">
-                        <span><strong>Время проведения работ: </strong>{{`c ${item.times[0]} по ${item.times[1]}`}}</span>
+                        <span><strong>Время проведения работ: </strong>{{`c ${item.times[0].slice(0, -3)} по ${item.times[1].slice(0, -3)}`}}</span>
                         <span v-if="item.weekend"><strong>Включая выходные дни</strong></span>
                     </div>
 
@@ -64,37 +64,6 @@
                     </ul>
                 </div>
             </v-card-text>
-
-            <v-card-actions>
-                <v-btn
-                    v-if="currentStatus !== 'owner'"
-                    outlined 
-                    color="green darken-2" 
-                    @click="changeStatus(index, 'approve')">
-                Согласовать</v-btn>
-
-                <v-btn
-                    v-if="currentStatus !== 'owner'"
-                    class="ml-5" 
-                    outlined 
-                    color="red darken-2" 
-                    @click="changeStatus(index, 'disapprove')">
-                Отклонить</v-btn>
-                
-                <router-link 
-                    class="ml-5 reset_underline" 
-                    :to="{name: 'printact', params: {id: index}}"
-                >
-                    <v-btn
-                        v-if='everyoneAgree'
-                        outlined 
-                        color="orange darken-2"
-                        >
-                        <v-icon class="mr-3">mdi-printer</v-icon>
-                        Печать
-                    </v-btn>
-                </router-link>
-            </v-card-actions>
         </v-col>
 
         <v-col cols="6">
@@ -102,6 +71,38 @@
                 :checkedItems='item.maps'
             />
         </v-col>
+    </v-row>
+
+    <v-row class="align-center px-2 py-4">
+        <v-btn
+            v-if="currentStatus !== 'owner'"
+            outlined 
+            color="green darken-2" 
+            @click="changeStatus(index, 'approve')">
+        Согласовать</v-btn>
+
+        <v-btn
+            v-if="currentStatus !== 'owner'"
+            class="ml-5" 
+            outlined 
+            color="red darken-2" 
+            @click="changeStatus(index, 'disapprove')">
+        Отклонить</v-btn>
+        
+        <router-link 
+            v-if='everyoneAgree'
+            class="ml-5 reset_underline" 
+            :to="{name: 'printact', params: {id: index}}"
+        >
+            <v-btn outlined color="orange darken-2">
+                <v-icon class="mr-3">mdi-printer</v-icon>
+                Печать
+            </v-btn>
+        </router-link>
+
+        <div class="ml-auto">
+            <EditButton @onClick="() => this.$router.push({name: 'act-edit', params: {id: item.id}})"/>
+        </div>
     </v-row>
 
     <v-row>
@@ -121,7 +122,6 @@
             </v-expansion-panel>
         </v-expansion-panels>
     </v-row>
-    
   </v-card>
 </template>
 
@@ -129,15 +129,20 @@
 import Maps from '@/components/maps/Maps'
 import ActCheckbox from '@/components/dashboards/ActCheckbox'
 import Worker from '@/components/dashboards/workerItems/Worker'
+import EditButton from '@/components/forms/button/EditCircleButton'
 
   export default {
-    components: {Maps, ActCheckbox, Worker},
+    components: {Maps, ActCheckbox, Worker, EditButton},
     props: ['item', 'index', 'currentStatus'],
 
     methods: {
         changeStatus: function(index, status) {
             this.$store.dispatch('acts/changeStatus', {index, status, roles: this.$store.state.user.roles})
         },
+
+        shortName(person) {
+            return (`${person.surname} ${person.name.slice(0, 1)}. ${person.patronymic.slice(0, 1)}.`)
+        }
     },
 
     computed: {

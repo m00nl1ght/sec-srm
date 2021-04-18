@@ -23,6 +23,7 @@
 
             <div class="col-9 py-0">
                 <v-file-input
+                    accept="image/*, .pdf"
                     small-chips
                     multiple
                     label="Прикрепить документы"

@@ -8,12 +8,11 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: config.BASE_VIEW_URL,
+    path: config.BASE_VIEW_URL + '/index',
     name: 'home',
     meta: {layout: 'main'},
     component: Home
   },
-
   {
     path: '/login',
     name: 'login',
@@ -34,17 +33,25 @@ const routes = [
   },
 
   {
-    path: config.BASE_VIEW_URL + '/main',
-    name: 'main',
+    path: config.BASE_VIEW_URL + '/act-new',
+    name: 'act-new',
     meta: {layout: 'main', requiresAuth: true},
-    component: () => import('@/views/Main.vue')
+    component: () => import('@/views/act/ActNew.vue')
+  },
+  
+  {
+    path: config.BASE_VIEW_URL + '/act-edit/:id',
+    name: 'act-edit',
+    meta: {layout: 'main', requiresAuth: true},
+    props: true,
+    component: () => import('@/views/act/ActEdit.vue')
   },
 
   {
     path: config.BASE_VIEW_URL + '/dashboard',
-    name: 'dashboard',
+    name: 'act-dashboard',
     meta: {layout: 'main'},
-    component: () => import('@/views/Dashboard.vue')
+    component: () => import('@/views/act/Dashboard.vue')
   },
   {
     path: config.BASE_VIEW_URL + '/printact/:id',
