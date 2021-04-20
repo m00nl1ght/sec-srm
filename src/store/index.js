@@ -17,5 +17,5 @@ export const store = new Vuex.Store({
         maps,
         snackbar,
         worker
-      },
+    },
 })

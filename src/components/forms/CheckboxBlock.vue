@@ -5,8 +5,8 @@
         :title="checkboxBlock.checkboxHead.build"
         :main="checkboxBlock.checkboxArrMain.build"
         :sub="checkboxBlock.checkboxArrSub.build"
-        :value="checkboxBlock.checkboxValue.build"
-        @input="(props) => onChange(props, 'build')"
+        :value="checkboxValue.build"
+        @onChange="(props) => onChange(props, 'build')"
       />
     </div>
     
@@ -15,8 +15,8 @@
         :title="checkboxBlock.checkboxHead.warm"
         :main="checkboxBlock.checkboxArrMain.warm"
         :sub="checkboxBlock.checkboxArrSub.warm"
-        :value="checkboxBlock.checkboxValue.build"
-        @input="(props) => onChange(props, 'warm')"
+        :value="checkboxValue.warm"
+        @onChange="(props) => onChange(props, 'warm')"
       />
     </div>
 
@@ -25,8 +25,8 @@
         :title="checkboxBlock.checkboxHead.another"
         :main="checkboxBlock.checkboxArrMain.another"
         :sub="checkboxBlock.checkboxArrSub.another"
-        :value="checkboxBlock.checkboxValue.build"
-        @input="(props) => onChange(props, 'another')"
+        :value="checkboxValue.another"
+        @onChange="(props) => onChange(props, 'another')"
       />
     </div>
   </div>
@@ -56,6 +56,10 @@ export default {
     ...mapState([
         'checkboxBlock'
     ]),
+
+    checkboxValue() {
+      return this.$store.getters['checkboxBlock/getCheckboxValue']
+    }
   }
 }
 </script>

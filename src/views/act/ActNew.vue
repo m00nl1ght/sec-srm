@@ -19,6 +19,10 @@ export default {
                 }
             })
         }
+    },
+
+    beforeMount() {
+        this.$store.commit('checkboxBlock/resetForm')
     }
 }
 </script>

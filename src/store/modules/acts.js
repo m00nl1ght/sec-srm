@@ -171,11 +171,7 @@ const state = () => ({
     },
 
     editActs(context, id) {
-        HTTP.get('api/act/' + id, {
-            headers: {
-              Authorization: 'Bearer ' + context.rootState.user.token
-            }
-        })
+        HTTP.get('api/act/' + id, )
         .then(res => {
             context.commit('setForm', res.data)
             context.commit('checkboxBlock/setCheckboxValue', JSON.parse(res.data.checkboxValue), { root: true })
@@ -189,12 +185,7 @@ const state = () => ({
             {
                 ...context.state.formData,
                 map: context.rootState.maps.mapCheckedItems,
-                checkboxes: context.rootState.checkboxBlock.checkBoxValue,
-            },
-            {
-                headers: {
-                    Authorization: 'Bearer ' + context.rootState.user.token
-                }
+                checkboxes: context.rootState.checkboxBlock.checkboxValue,
             })
             .then(res => console.log(res))
         })

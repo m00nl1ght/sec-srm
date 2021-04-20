@@ -6,18 +6,18 @@ import router from './router/index'
 
 Vue.config.productionTip = false
 
-//axios
-import Axios from 'axios'
+// //axios
+// import Axios from 'axios'
 
-Vue.prototype.$http = Axios
-Vue.prototype.$http.defaults.baseURL = 'http://localhost:8000'
+// Vue.prototype.$http = Axios
+// Vue.prototype.$http.defaults.baseURL = 'http://localhost:8000'
 
-const token = localStorage.getItem('access_token')
+// const token = localStorage.getItem('access_token')
 
-if(token) {
-  Vue.prototype.$http.defaults.headers.common['Authorization'] ='Bearer ' + token
-}
-//---------
+// if(token) {
+//   Vue.prototype.$http.defaults.headers.common['Authorization'] ='Bearer ' + token
+// }
+// //---------
 
 new Vue({
   router,

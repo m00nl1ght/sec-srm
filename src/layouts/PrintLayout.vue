@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="header">
-      <router-link class="header__link" :to="{name: 'dashboard'}">
+      <router-link class="header__link" :to="{name: 'act-dashboard'}">
         <v-btn outlined>Назад</v-btn>
       </router-link>
 

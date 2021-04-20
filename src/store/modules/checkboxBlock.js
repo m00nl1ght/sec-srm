@@ -69,11 +69,19 @@ const state = () => ({
 const getters = {
     getActions: state => deadline => {
         return state.actions.filter(item => item.deadline == deadline)
-    }
+    },
+    getCheckboxValue: state => state.checkboxValue
 }
 
 // actions
 const actions = {
+    setCheckboxValue(context, value) {
+        let val = []
+        if(context.state.checkboxValue.build.indexOf(value) != -1) {
+            
+        }
+    },
+
     changedForm(context, credentials) {
         let item = {}
         item[credentials.index] = credentials.value

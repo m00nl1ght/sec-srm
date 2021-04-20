@@ -16,15 +16,12 @@
 
     <v-list>
       <v-list-item class="list__item" v-for="(val, name) in main" :key="name">
-        <input 
-          type="checkbox" 
-          :id="name"
+        <v-checkbox
+          v-model="checked"
+          :label="val"
           :value="name"
-          v-model="checkedItem"
-          @change="onChange"
-          :disabled="!isShowing">
-
-        <label class="checkbox_w100 py-1 ml-3" :for="name">{{ val }}</label>
+                    :disabled="!isShowing">
+        ></v-checkbox>
       </v-list-item>
     </v-list>
 
@@ -33,15 +30,13 @@
     <v-divider class="mx-4"></v-divider>
 
     <v-list>
-      <v-list-item class="list__item" v-for="(value, name) in sub" :key="name">
-        <input type="checkbox" 
-          :id="name" 
-          :value="name" 
-          v-model="checkedItem"
-          @change="onChange"
-          :disabled="!isShowing">
-
-        <label class="checkbox_w100 py-1 ml-3" :for="name">{{ value }}</label>
+      <v-list-item class="list__item" v-for="(val, name) in sub" :key="name">
+        <v-checkbox
+          v-model="checked"
+          :label="val"
+          :value="name"
+                    :disabled="!isShowing">
+        ></v-checkbox>
       </v-list-item>
     </v-list>
   </v-card>
@@ -59,6 +54,18 @@ export default {
   data: function() {
     return {
       checkedItem: this.value,
+    }
+  },
+
+  computed: {
+    checked: {
+      get: function() {
+        return this.value
+      },
+      set(val) {
+        this.$emit('onChange', val)
+      }
+
     }
   },
 

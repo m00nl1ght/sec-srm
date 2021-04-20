@@ -21,6 +21,14 @@ export default {
         }
     },
 
+    watch: {
+        checkedItems: function(val) {
+            if(val.indexOf(this.col + '_' + this.row) != -1) {
+                this.isActive = true
+            }
+        }
+    },
+
     mounted() {
         if(this.checkedItems && this.checkedItems.indexOf(this.col + '_' + this.row) != -1) {
             this.isActive = true

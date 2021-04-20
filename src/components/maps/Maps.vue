@@ -45,9 +45,6 @@ export default {
              return 'height: ' + 100/this.rows + '%'
         }
     },
-
-
-
 }
 
     // <img
