@@ -77,7 +77,7 @@
 </template>
 
 <script>
-import Safetyaction from '@/components/print/Safetyaction'
+import Safetyaction from '@/components/act/print/Safetyaction'
 
 export default {
     components: { Safetyaction },

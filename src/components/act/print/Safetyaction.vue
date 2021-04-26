@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import SafetyactionTable from '@/components/print/SafetyactionTable'
+import SafetyactionTable from '@/components/act/print/SafetyactionTable'
 
 export default {
     components: { SafetyactionTable },

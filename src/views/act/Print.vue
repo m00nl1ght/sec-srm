@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Act from "@/components/print/Act"
+import Act from "@/components/act/print/Act"
 
 export default {
     components: {Act},

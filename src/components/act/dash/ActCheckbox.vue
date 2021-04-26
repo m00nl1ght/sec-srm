@@ -31,7 +31,7 @@
 
 <script>
 import {mapState} from 'vuex'
-import CheckboxCard from '@/components/forms/items/CheckboxCard.vue'
+import CheckboxCard from '@/components/act/checkbox/CheckboxCard.vue'
 
 export default {
   components: { CheckboxCard },

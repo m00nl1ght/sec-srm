@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import ActCard from '@/components/dashboards/ActCard'
+import ActCard from '@/components/act/dash/ActCard'
 import ProgressLine from '@/components/app/ProgressLine'
 import {mapState} from 'vuex'
 

@@ -72,15 +72,15 @@
 </template>
 
 <script>
-import Contract from './items/Contract'
-import Tz from './items/Tz'
-import Work from './items/Work'
-import Firm from './items/Firm'
-import Person from './items/Person'
-import CheckboxBlock from './CheckboxBlock'
-import Datetime from './items/Datetime'
-import Maps from '@/components/maps/Maps'
-import SubmitButton from '@/components/forms/button/SubmitButton'
+import Contract from '@/components/act/form_items/Contract'
+import Tz from '@/components/act/form_items/Tz'
+import Work from '@/components/act/form_items/Work'
+import Firm from '@/components/act/form_items/Firm'
+import Person from '@/components/act/form_items/Person'
+import CheckboxBlock from '@/components/act/form_items/CheckboxBlock'
+import Datetime from '@/components/act/form_items/Datetime'
+import Maps from '@/components/act/map/Maps'
+import SubmitButton from '@/components/app/button/SubmitButton'
 
 import {mapState, mapActions} from 'vuex'
 

@@ -33,7 +33,7 @@
 
 <script>
 import CONFIG from '@/config/config.js'
-import Toolbar from '@/components/dashboards/workerItems/Toolbar'
+import Toolbar from '@/components/worker/items/Toolbar'
 
 export default {
     components: {Toolbar},

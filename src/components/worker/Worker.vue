@@ -14,9 +14,9 @@
 </template>
 
 <script>
-import AddWorkerForm from '@/components/dashboards/workerItems/AddWorkerForm'
-import ActWorkerCard from '@/components/dashboards/workerItems/ActWorkerCard'
-import AddFileModal from '@/components/dashboards/workerItems/AddFileModal'
+import AddWorkerForm from '@/components/worker/items/AddWorkerForm'
+import ActWorkerCard from '@/components/worker/items/ActWorkerCard'
+import AddFileModal from '@/components/worker/items/AddFileModal'
 import ProgressLine from '@/components/app/ProgressLine'
 
 // import {HTTP} from '@/plugins/axios'

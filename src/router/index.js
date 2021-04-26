@@ -58,7 +58,21 @@ const routes = [
     name: 'printact',
     meta: {layout: 'print'},
     props: true,
-    component: () => import('@/views/Print.vue')
+    component: () => import('@/views/act/Print.vue')
+  },
+
+  {
+    path: config.BASE_VIEW_URL + '/instruct',
+    name: 'worker-instruct',
+    meta: {layout: 'main'},
+    component: () => import('@/views/worker/Instruct.vue')
+  },
+
+  {
+    path: config.BASE_VIEW_URL + '/worker-approved',
+    name: 'worker-approved',
+    meta: {layout: 'main'},
+    component: () => import('@/views/worker/Approved.vue')
   },
 
 ]

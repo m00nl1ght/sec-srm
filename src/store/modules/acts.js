@@ -154,7 +154,7 @@ const state = () => ({
             HTTP.post('api/act', {
                 ...context.state.formData,
                 map: context.rootState.maps.mapCheckedItems,
-                checkboxes: context.rootState.checkboxBlock.checkBoxValue,
+                checkboxes: context.rootState.checkboxBlock.checkboxValue,
                 roles: context.rootState.user.roles
             },
             {

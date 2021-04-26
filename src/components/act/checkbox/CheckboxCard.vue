@@ -20,7 +20,7 @@
           v-model="checked"
           :label="val"
           :value="name"
-                    :disabled="!isShowing">
+          :disabled="!isShowing">
         ></v-checkbox>
       </v-list-item>
     </v-list>

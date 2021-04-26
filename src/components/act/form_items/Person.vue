@@ -25,6 +25,7 @@
         :label="label.patronymic"
         :name='nameKey + "-patronymic"'
         :value="value.patronymic"
+        :rules="[rules.required]"
         @input="onChange"
       ></v-text-field>
     </div>

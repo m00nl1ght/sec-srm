@@ -4,14 +4,114 @@ import {HTTP} from '@/plugins/axios'
 const state = () => ({
     isModalAddFileActive: false,
     workerId: '',
-    workers: {}
+    workers: {},
+    instruct: [
+    {
+        id: 1,
+        name: "Иван",
+        surname: "Иванов",
+        patronymic: "Иванович",
+        position: "Стажер",
+        firm: "Рога и копыта",
+    },
+    {
+        id: 2,
+        name: "Иван",
+        surname: "Иванов",
+        patronymic: "Иванович",
+        position: "Стажер",
+        firm: "Рога и копыта",
+    },
+    {
+        id: 3,
+        name: "Иван",
+        surname: "Иванов",
+        patronymic: "Иванович",
+        position: "Стажер",
+        firm: "Рога и копыта",
+    },
+    {
+        id: 4,
+        name: "Иван",
+        surname: "Иванов",
+        patronymic: "Иванович",
+        position: "Стажер",
+        firm: "Рога и копыта",
+    },
+    {
+        id: 5,
+        name: "Иван",
+        surname: "Иванов",
+        patronymic: "Иванович",
+        position: "Стажер",
+        firm: "Рога и копыта",
+    },
+    {
+        id: 6,
+        name: "Иван",
+        surname: "Иванов",
+        patronymic: "Иванович",
+        position: "Стажер",
+        firm: "Рога и копыта",
+    },],
+    approved: [
+        {
+            id: 1,
+            name: "Иван",
+            surname: "Иванов",
+            patronymic: "Иванович",
+            position: "Стажер",
+            firm: "Рога и копыта",
+        },
+        {
+            id: 2,
+            name: "Петр",
+            surname: "Петров",
+            patronymic: "Иванович",
+            position: "Стажер",
+            firm: "Рога и копыта",
+        },
+        {
+            id: 3,
+            name: "Сидор",
+            surname: "Иванов",
+            patronymic: "Иванович",
+            position: "Стажер",
+            firm: "Рога и копыта",
+        },
+        {
+            id: 4,
+            name: "Петр",
+            surname: "Сидоров",
+            patronymic: "Иванович",
+            position: "Стажер",
+            firm: "Рога",
+        },
+        {
+            id: 5,
+            name: "Сидоров",
+            surname: "Сидор",
+            patronymic: "Иванович",
+            position: "Стажер",
+            firm: "Копыта",
+        },
+        {
+            id: 6,
+            name: "Иван",
+            surname: "Иванов",
+            patronymic: "Иванович",
+            position: "Стажер",
+            firm: "Рога и копыта",
+        }]
 })
 
 // getters
 const getters = {
     isModalAddFileActive: state => state.isModalAddFileActive,
     getWorkers: state => actId => state.workers[actId],
-    workerId: state => state.workerId
+    workerId: state => state.workerId,
+    getInstruct: state => state.instruct,
+    getApproved: state => state.approved
 }
 
 // actions
@@ -126,6 +226,10 @@ const actions = {
                 state.commit('deleteWorker', { id, actId })
             }
         })
+    },
+
+    setInstruct(state, id) {
+        state.commit('setInstruct', id)
     }
 }
 
@@ -171,6 +275,10 @@ const mutations = {
 
     deleteWorker(state, { id, actId }) {
         state.workers = state.workers[actId].filter((item) => item.id !== id)
+    },
+
+    setInstruct(state, id) {
+        state.instruct = state.instruct.filter(item => item.id !== id)
     }
 }
 

@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import ActDashboard from "@/components/dashboards/ActDashboard";
+import ActDashboard from "@/components/act/ActDashboard";
 
 export default {
   components: {

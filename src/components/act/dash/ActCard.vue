@@ -126,10 +126,10 @@
 </template>
 
 <script>
-import Maps from '@/components/maps/Maps'
-import ActCheckbox from '@/components/dashboards/ActCheckbox'
-import Worker from '@/components/dashboards/workerItems/Worker'
-import EditButton from '@/components/forms/button/EditCircleButton'
+import Maps from '@/components/act/map/Maps'
+import ActCheckbox from '@/components/act/dash/ActCheckbox'
+import Worker from '@/components/worker/Worker'
+import EditButton from '@/components/app/button/EditCircleButton'
 
   export default {
     components: {Maps, ActCheckbox, Worker, EditButton},

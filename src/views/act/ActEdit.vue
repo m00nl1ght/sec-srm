@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import ActForm from "@/components/forms/ActForm";
+import ActForm from "@/components/act/ActForm";
 export default {
     props: ['id'],
     components: { ActForm },

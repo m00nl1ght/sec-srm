@@ -1,5 +1,5 @@
 <template>
-    <div id="js-map-grid" class="map js-map-grid">
+    <div id="js-map-grid" class="map js-map-grid" :style="bgPicture">
         <div 
             v-for="(row, index) in rows"
 
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import MapsColumnItem from "@/components/maps/MapsColumnItem"
+import MapsColumnItem from "@/components/act/map/MapsColumnItem"
 
 export default {
     props: ['checkedItems'],
@@ -43,6 +43,9 @@ export default {
         },
         height() {
              return 'height: ' + 100/this.rows + '%'
+        },
+        bgPicture() {
+            return 'background-image: url("' + require('@/assets/map.jpg') + '")'
         }
     },
 }
@@ -53,12 +56,11 @@ export default {
     // />
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
     .map {
-        background-image: url('../../assets/map.jpg');
         background-size: 100% 100%;
 
-        width: 700px;
+        max-width: 700px;
         height: 450px;
 
         margin: 0 auto;
@@ -66,7 +68,7 @@ export default {
 
     @media screen and (max-width: 1400px) {
         .map {
-            width: 400px;
+            max-width: 400px;
             height: 260px;
         }
     }

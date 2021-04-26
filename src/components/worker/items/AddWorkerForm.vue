@@ -45,9 +45,9 @@
 </template>
 
 <script>
-import AddCircleButton from '@/components/forms/button/AddCircleButton'
-import SubmitButton from '@/components/forms/button/SubmitButton'
-import SubmitCircleButton from '@/components/forms/button/SubmitCircleButton'
+import AddCircleButton from '@/components/app/button/AddCircleButton'
+import SubmitButton from '@/components/app/button/SubmitButton'
+import SubmitCircleButton from '@/components/app/button/SubmitCircleButton'
 import { mapActions } from 'vuex'
 
 export default {

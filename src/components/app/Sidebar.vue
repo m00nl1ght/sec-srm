@@ -43,7 +43,9 @@
       items: [
         { title: 'Home', url: {name: 'home'}, icon: 'mdi-image' },
         { title: 'Dashboard', url: {name: 'act-dashboard'}, icon: 'mdi-view-dashboard' },
-        { title: 'New act', url: {name: 'act-new'}, icon: 'mdi-image' },
+        { title: 'New act', url: {name: 'act-new'}, icon: 'mdi-file-plus-outline' },
+        { title: 'Instruct', url: {name: 'worker-instruct'}, icon: 'mdi-account-cowboy-hat' },
+        { title: 'Workers', url: {name: 'worker-approved'}, icon: 'mdi-account-multiple-check' },
       ],
       right: null,
     }),
