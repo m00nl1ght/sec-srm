@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Auth\RegisterController;
+
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +19,20 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Auth::routes();
+
+Route::post('register', [RegisterController::class, 'register'])
+    ->middleware('restrictothers');
+
+// Страница создания токена
+Route::get('/home', function () {
+  if(Auth::check() && Auth::user()->role === 1){
+      return auth()
+          ->user()
+          ->createToken('auth_token', ['admin'])
+          ->plainTextToken;
+  }
+  return redirect("/");
+})->middleware('auth');

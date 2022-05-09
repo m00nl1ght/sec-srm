@@ -70,7 +70,7 @@ services:
       - mysql-8
     environment:
       PMA_HOST: mysql-8
-      PMA_PORT: 3306
+      PMA_PORT: 4308
       PMA_ARBITRARY: 1
       PMA_USER: root
       PMA_PASSWORD: secret
